@@ -492,7 +492,7 @@
                 }
                 
                 // Laad playlist vanuit JSON
-                const response = await fetch(`${configId}.json`);
+                const response = await fetch(`assets/${configId}/config.json`);
                 
                 if (!response.ok) {
                     throw new Error(`Kon playlist niet laden: ${response.status}`);

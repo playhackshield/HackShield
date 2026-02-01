@@ -3,13 +3,8 @@
     "iframes": [
         { 
             "id": 1, 
-            "title": "HackShield", 
-            "url": "https://hackshieldgame.com/nl" 
-        },
-        { 
-            "id": 2, 
-            "title": "Wikipedia EN", 
-            "url": "https://playhackshield.github.io/HackShield/TalentenFontein" 
+            "title": "De Filterfabriek", 
+            "url": "https://playhackshield.github.io/HackShield/presenter.html?id=filterfabriek" 
         },
         { 
             "id": 3, 

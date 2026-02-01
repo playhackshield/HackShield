@@ -153,7 +153,7 @@
             
             try {
                 // Laad JSON bestand
-                const response = await fetch(`${configId}.json`);
+                const response = await fetch(`klassenquests/${configId}.json`);
                 
                 if (!response.ok) {
                     throw new Error(`Kon JSON niet laden: ${response.status}`);

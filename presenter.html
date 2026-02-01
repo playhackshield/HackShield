@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HackShield (v1.0.6)</title>
+    <title>HackShield (v1.0.0)</title>
     
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     
@@ -133,51 +133,56 @@
     </div>
 
     <script>
-        // CONFIGURATIE - Hier kun je alles aanpassen
-        const config = {
-            // Verhouding hoofdframe (percentage van hoogte)
-            ratio: 95, // ← Zet hier het gewenste percentage (10-90)
-            
-            // Iframe definities
-            iframes: [
-                { 
-                    id: 1, 
-                    title: "HackShield", 
-                    url: "https://hackshieldgame.com/nl" 
-                },
-                { 
-                    id: 2, 
-                    title: "Wikipedia EN", 
-                    url: "https://playhackshield.github.io/HackShield/TalentenFontein" 
-                },
-                { 
-                    id: 3, 
-                    title: "Wikipedia DE", 
-                    url: "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite" 
-                },
-                { 
-                    id: 4, 
-                    title: "Wikipedia FR", 
-                    url: "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal" 
-                }
-            ]
-        };
-
+        let config = null; // Wordt geladen vanuit JSON
         let iframes = [];
         let mainIndex = 0;
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const mainArea = document.getElementById('main-area');
             const thumbnailsArea = document.getElementById('thumbnails-area');
             const mainContainer = document.querySelector('.main-container');
+            
+            // Haal ID parameter op uit URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const configId = urlParams.get('id');
+            
+            if (!configId) {
+                alert('Geen ID parameter gevonden in URL. Gebruik: index.html?id=configuratie');
+                return;
+            }
+            
+            try {
+                // Laad JSON bestand
+                const response = await fetch(`${configId}.json`);
+                
+                if (!response.ok) {
+                    throw new Error(`Kon JSON niet laden: ${response.status}`);
+                }
+                
+                config = await response.json();
+                
+                // Valideer configuratie
+                if (!config.iframes || !Array.isArray(config.iframes) || config.iframes.length === 0) {
+                    throw new Error('Ongeldige JSON structuur: iframes array ontbreekt of is leeg');
+                }
+                
+                if (typeof config.ratio !== 'number' || config.ratio < 10 || config.ratio > 90) {
+                    config.ratio = 95; // Standaardwaarde
+                }
+                
+            } catch (error) {
+                console.error('Fout bij laden configuratie:', error);
+                alert(`Fout bij laden configuratie: ${error.message}`);
+                return;
+            }
             
             // Maak alle iframes aan
             config.iframes.forEach((frame, index) => {
                 const iframe = document.createElement('iframe');
                 iframe.className = 'iframe';
                 iframe.src = frame.url;
-                iframe.title = frame.title;
-                iframe.dataset.id = frame.id;
+                iframe.title = frame.title || `Iframe ${index + 1}`;
+                iframe.dataset.id = frame.id || index;
                 iframe.dataset.index = index;
                 
                 document.body.appendChild(iframe);
@@ -204,7 +209,7 @@
                     // Titel
                     const title = document.createElement('div');
                     title.className = 'thumbnail-title';
-                    title.textContent = config.iframes[i].title;
+                    title.textContent = config.iframes[i].title || `Iframe ${i + 1}`;
                     
                     // Border
                     const border = document.createElement('div');

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>(v1.1.5) Talentenfontein</title>
+    <title>(v1.1.6) Talentenfontein</title>
     <style>
         * {
             margin: 0;
@@ -197,105 +197,8 @@
     </div>
 
     <script>
-        // Playlist
-        const playlist = [
-            {
-                title: "Intro",
-                type: "video",
-                src: "Talentenfontein 01.mp4",
-                loop: true
-            },
-            {
-                title: "Intro", 
-                type: "video",
-                src: "Talentenfontein 02.mp4",
-                loop: false
-            },
-            {
-                title: "Intro",
-                type: "video",
-                src: "Talentenfontein 03.mp4",
-                loop: true
-            },
-            {
-                title: "Intro",
-                type: "iframe",
-                src: "https://docs.google.com/presentation/d/e/2PACX-1vQsMnhThLrX1oJVIpBaLdZp6chTFLgL-lhYKEX_HSwVhjnRrfIcX2Fkt44itCYiD3_hZHdpp3yYA9R8/pubembed?start=false&loop=false",
-                loop: false
-            },
-            {
-                title: "Intro",
-                type: "video",
-                src: "Talentenfontein 05.mp4",
-                loop: false
-            },
-            {
-                title: "Talent van De Doener",
-                type: "video",
-                src: "Talentenfontein 06.mp4",
-                loop: true
-            },
-            {
-                title: "Talent van De Onderzoeker",
-                type: "video",
-                src: "Talentenfontein 07.mp4",
-                loop: false
-            },
-            {
-                title: "Talent van De Onderzoeker",
-                type: "video",
-                src: "Talentenfontein 08.mp4",
-                loop: true
-            },
-            {
-                title: "Intro",
-                type: "iframe",
-                src: "https://www.puzzle-pipes.com/",
-                loop: false
-            },
-            {
-                title: "Talent van De Verbinder",
-                type: "video",
-                src: "Talentenfontein 09.mp4",
-                loop: false
-            },
-            {
-                title: "Talent van De Verbinder",
-                type: "video",
-                src: "Talentenfontein 10.mp4",
-                loop: false
-            },
-            {
-                title: "Talent van De Ontwerper",
-                type: "video",
-                src: "Talentenfontein 11.mp4",
-                loop: false
-            },
-            {
-                title: "Talent van De Ontwerper",
-                type: "video",
-                src: "Talentenfontein 12.mp4",
-                loop: true
-            },
-            {
-                title: "Talent van De Ontwerper",
-                type: "video",
-                src: "Talentenfontein 13.mp4",
-                loop: true
-            },
-            {
-                title: "Einde",
-                type: "video",
-                src: "Talentenfontein 14.mp4",
-                loop: false
-            },
-            {
-                title: "Einde",
-                type: "video",
-                src: "Talentenfontein 15.mp4",
-                loop: true
-            }
-        ];
+        // Playlist - wordt geladen vanuit JSON
+        let playlist = [];
 
         // DOM elements
         const contentDisplay = document.getElementById('contentDisplay');
@@ -373,6 +276,8 @@
         
         // Laad en toon content
         function loadContent(index) {
+            if (playlist.length === 0) return;
+            
             currentIndex = index;
             const item = playlist[currentIndex];
             
@@ -418,16 +323,19 @@
         
         // Naar volgende
         function next() {
+            if (playlist.length === 0) return;
             loadContent(getNextIndex(currentIndex));
         }
         
         // Naar vorige
         function prev() {
+            if (playlist.length === 0) return;
             loadContent(getPrevIndex(currentIndex));
         }
         
         // Pauzeer/speel
         function togglePause() {
+            if (playlist.length === 0) return;
             if (currentElement && playlist[currentIndex].type === "video") {
                 if (currentElement.paused) {
                     currentElement.play();
@@ -540,6 +448,8 @@
         controls.addEventListener('dblclick', resetControlsPosition);
         
         document.addEventListener('keydown', (e) => {
+            if (playlist.length === 0) return;
+            
             if (e.key === 'ArrowLeft') prev();
             if (e.key === 'ArrowRight') next();
             if (e.key === ' ' && playlist[currentIndex].type === "video") {
@@ -571,7 +481,52 @@
             }
         }, { passive: false });
         
-        function init() {
+        async function init() {
+            try {
+                // Haal ID parameter op uit URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const configId = urlParams.get('id');
+                
+                if (!configId) {
+                    throw new Error('Geen ID parameter gevonden in URL. Gebruik: index.html?id=configuratie');
+                }
+                
+                // Laad playlist vanuit JSON
+                const response = await fetch(`${configId}.json`);
+                
+                if (!response.ok) {
+                    throw new Error(`Kon playlist niet laden: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Valideer playlist
+                if (!Array.isArray(data)) {
+                    throw new Error('Ongeldige JSON structuur: playlist moet een array zijn');
+                }
+                
+                if (data.length === 0) {
+                    throw new Error('Playlist is leeg');
+                }
+                
+                // Valideer elk item
+                data.forEach((item, index) => {
+                    if (!item.src || !item.type) {
+                        throw new Error(`Item ${index + 1} ontbreekt src of type`);
+                    }
+                    if (!['video', 'iframe'].includes(item.type)) {
+                        throw new Error(`Item ${index + 1}: type moet "video" of "iframe" zijn`);
+                    }
+                });
+                
+                playlist = data;
+                
+            } catch (error) {
+                console.error('Fout bij laden playlist:', error);
+                scaleIndicator.textContent = `Fout: ${error.message}`;
+                return;
+            }
+            
             const savedScale = localStorage.getItem('playerScale');
             if (savedScale) {
                 scale = parseFloat(savedScale);
@@ -583,6 +538,7 @@
             loadContent(0);
         }
         
+        // Start
         init();
     </script>
 </body>

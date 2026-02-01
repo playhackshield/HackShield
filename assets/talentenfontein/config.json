@@ -26,19 +26,19 @@
         {
             "title": "Intro",
             "type": "video",
-            "src": "Talentenfontein 01.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 01.mp4",
             "loop": true
         },
         {
             "title": "Intro", 
             "type": "video",
-            "src": "Talentenfontein 02.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 02.mp4",
             "loop": false
         },
         {
             "title": "Intro",
             "type": "video",
-            "src": "Talentenfontein 03.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 03.mp4",
             "loop": true
         },
         {
@@ -50,25 +50,25 @@
         {
             "title": "Intro",
             "type": "video",
-            "src": "Talentenfontein 05.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 05.mp4",
             "loop": false
         },
         {
             "title": "Talent van De Doener",
             "type": "video",
-            "src": "Talentenfontein 06.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 06.mp4",
             "loop": true
         },
         {
             "title": "Talent van De Onderzoeker",
             "type": "video",
-            "src": "Talentenfontein 07.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 07.mp4",
             "loop": false
         },
         {
             "title": "Talent van De Onderzoeker",
             "type": "video",
-            "src": "Talentenfontein 08.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 08.mp4",
             "loop": true
         },
         {
@@ -80,43 +80,43 @@
         {
             "title": "Talent van De Verbinder",
             "type": "video",
-            "src": "Talentenfontein 09.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 09.mp4",
             "loop": false
         },
         {
             "title": "Talent van De Verbinder",
             "type": "video",
-            "src": "Talentenfontein 10.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 10.mp4",
             "loop": false
         },
         {
             "title": "Talent van De Ontwerper",
             "type": "video",
-            "src": "Talentenfontein 11.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 11.mp4",
             "loop": false
         },
         {
             "title": "Talent van De Ontwerper",
             "type": "video",
-            "src": "Talentenfontein 12.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 12.mp4",
             "loop": true
         },
         {
             "title": "Talent van De Ontwerper",
             "type": "video",
-            "src": "Talentenfontein 13.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 13.mp4",
             "loop": true
         },
         {
             "title": "Einde",
             "type": "video",
-            "src": "Talentenfontein 14.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 14.mp4",
             "loop": false
         },
         {
             "title": "Einde",
             "type": "video",
-            "src": "Talentenfontein 15.mp4",
+            "src": "assets/talentenfontein/Talentenfontein 15.mp4",
             "loop": true
         }
     ]

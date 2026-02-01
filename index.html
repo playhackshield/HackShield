@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>(v1.0.1) HackShield klassenquests</title>
+    <title>(v1.0.2) HackShield klassenquests</title>
     
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -284,7 +284,8 @@
             document.querySelectorAll('.quest-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const id = this.getAttribute('data-id');
-                    alert(`Je hebt gekozen voor: ${questsData.find(q => q.id == id).title}`);
+                    // Navigeer naar presenter.html met de ID als query parameter
+                    window.location.href = `presenter.html?id=${id}`;
                 });
             });
         }

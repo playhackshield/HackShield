@@ -1,0 +1,25 @@
+{
+    "ratio": 95,
+    "iframes": [
+        { 
+            "id": 1, 
+            "title": "HackShield", 
+            "url": "https://hackshieldgame.com/nl" 
+        },
+        { 
+            "id": 2, 
+            "title": "Wikipedia EN", 
+            "url": "https://playhackshield.github.io/HackShield/TalentenFontein" 
+        },
+        { 
+            "id": 3, 
+            "title": "Wikipedia DE", 
+            "url": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite" 
+        },
+        { 
+            "id": 4, 
+            "title": "Wikipedia FR", 
+            "url": "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal" 
+        }
+    ]
+}

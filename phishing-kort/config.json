@@ -1,0 +1,24 @@
+{
+    "ratio": 95,
+    "iframes": [
+        { 
+            "id": 1, 
+            "title": "Regels", 
+            "url": "https://docs.google.com/presentation/d/10WC7D9iz5cV-DGTiI_--9lpMpgYHPpEHHbwazmNKZ9M/edit?usp=sharing" 
+        },
+        { 
+            "id": 2, 
+            "title": "Kahoot", 
+            "url": "https://kahoot.com/nl/" 
+        }
+        
+    ],
+    "playlist" : [
+        {
+            "title": "Intro",
+            "type": "video",
+            "src": "Talentenfontein 01.mp4",
+            "loop": true
+        }
+   ]
+}

@@ -4,12 +4,12 @@
         { 
             "id": 1, 
             "title": "Kahoot (korte versie)", 
-            "url": "https://kahoot.it/challenge/09479706?challenge-id=858b3032-1590-4745-a15d-5149db08f79f_1778321263931&amp;embed=true" 
+            "url": "https://create.kahoot.it/share/phishing-kort/47da7be5-71a5-4bf4-b175-13ee6e94802d" 
         },
         { 
             "id": 2, 
             "title": "Kahoot (HackShield level)", 
-            "url": "https://play.kahoot.it/v2/*?quizId=47da7be5-71a5-4bf4-b175-13ee6e94802d" 
+            "url": "https://create.kahoot.it/share/phishing-hackshield-level/3c4ee248-b063-4b41-aa40-b7803c3fa1bf" 
         }                
     ],
     "playlist" : [

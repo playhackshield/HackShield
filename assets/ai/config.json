@@ -1,0 +1,23 @@
+{
+    "ratio": 95,
+    "iframes": [
+        { 
+            "id": 1, 
+            "title": "AI", 
+            "url": "https://1drv.ms/p/c/bc5b26517a91440a/IQBtAnqUFx_CRaM5-bt28UI8ARtNaaMv7D-Vhr8D5KVC9hA?e=JqHPLB&nav=eyJzSWQiOjI2MSwiY0lkIjoyODIxOTEyODU4fQ" 
+        },
+        { 
+            "id": 2, 
+            "title": "Kahoot", 
+            "url": "" 
+        }                
+    ],
+    "playlist" : [
+        {
+            "title": "Intro",
+            "type": "video",
+            "src": "Talentenfontein 01.mp4",
+            "loop": true
+        }
+   ]
+}

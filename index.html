@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Klassenquests – Ontdek & Leren</title>
+    <title>Klassenquest – Ontdek & Leren</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -274,7 +274,7 @@
 <body>
 <div class="container">
     <div class="hero">
-        <h1>🎮 KLASSENQUESTS ⚡</h1>
+        <h1>🎮 KLASSENQUEST ⚡</h1>
         <div class="sub">✨ Kies een avontuur en duik in de digitale wereld ✨</div>
     </div>
 
@@ -290,48 +290,64 @@
 
 <script>
     // ----- JSON DATA (zelfde structuur, uitgebreid met een extra speelse missie voor de leuk) -----
-    const questsData = [
-        {
-            "id": 'enquete',
-            "title": "Enquête",
-            "image": "assets/HSmini00.jpg",
-            "description": "Laten we elkaar leren kennen."
-        },
-        {
-            "id": 'introductie',
-            "title": "Introductie",
-            "image": "assets/HSmini01.webp",
-            "description": "De introductie van HackShield."
-        },
-        {
-            "id": 'talentenfontein',
-            "title": "De Talentenfontein",
-            "image": "assets/HSmini02.webp",
-            "description": "Ontdek in deze quest jouw unieke set aan talenten."
-        },
-        {
-            "id": 'phishing',
-            "title": "Phishing",
-            "image": "assets/HSmini03.webp",
-            "description": "Phishing."
-        },
-        {
-            "id": 'spanning',
-            "title": "Omgaan met spanning",
-            "image": "assets/HSmini04.webp",
-            "description": "Hoe om te gaan met dingen op internet die je spanning geven."
-        },
-        {
-            "id": 'ai',
-            "title": "AI",
-            "image": "assets/HSmini05.webp",
-            "description": "Hoe we veilig en plezierig met AI kunnen omgaan."
-        },
-        {
-            "id": 'filterfabriek',
-            "title": "De Filterfabriek",
-            "image": "assets/HSmini06.webp",
-            "description": "Leer hier hoe jij echt van nep blijft zien in de digitale wereld."
+        const questsData = [
+            {
+                "id": 'enquete',
+                "title": "Enquête",
+                "image": "assets/HSmini00.jpg",
+                "description": "Laten we elkaar leren kennen."
+            },
+            {
+                "id": 'introductie',
+                "title": "Introductie",
+                "image": "assets/HSmini01.webp",
+                "description": "De introductie van HackShield."
+            },
+            {
+                "id": 'talentenfontein',
+                "title": "De Talentenfontein",
+                "image": "assets/HSmini02.webp",
+                "description": "Ontdek in deze quest jouw unieke set aan talenten."
+            },
+            {
+                "id": 'phishing',
+                "title": "Phishing",
+                "image": "assets/HSmini03.webp",
+                "description": "Phishing."
+            },
+            {
+                "id": 'spanning',
+                "title": "Omgaan met spanning",
+                "image": "assets/HSmini04.webp",
+                "description": "Hoe om te gaan met dingen op internet die je spanning geven."
+            },
+            {
+                "id": 'ai',
+                "title": "AI",
+                "image": "assets/HSmini05.webp",
+                "description": "Hoe we veilig en plezierig met AI kunnen omgaan."
+            },
+            {
+                "id": 'filterfabriek',
+                "title": "De Filterfabriek",
+                "image": "assets/HSmini06.webp",
+                "description": "Leer hier hoe jij echt van nep blijft zien in de digitale wereld."
+            }
+        ];
+
+        // Function to create a card element
+        function createCardElement(quest) {
+            return `
+                <div class="quest-card" data-id="${quest.id}">
+                    <div class="card-header">
+                        <h3 class="card-title">${quest.title}</h3>
+                    </div>
+                    <div class="card-image">
+                        <img src="${quest.image}" alt="${quest.title}">
+                    </div>
+                    <p class="card-description">${quest.description}</p>
+                </div>
+            `;
         }
     ];
 

@@ -3,16 +3,8 @@
     "iframes": [
         { 
             "id": 1, 
-            "title": "Kahoot (korte versie)", 
-            "url": "https://create.kahoot.it/share/phishing-kort/47da7be5-71a5-4bf4-b175-13ee6e94802d" 
+            "title": "Kahoot", 
+            "url": "https://playhackshield.github.io/HackShield/assets/ai/kahoot.html" 
         }
-    ],
-    "playlist" : [
-        {
-            "title": "Intro",
-            "type": "video",
-            "src": "Talentenfontein 01.mp4",
-            "loop": true
-        }
-   ]
+    ]
 }

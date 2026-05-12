@@ -2,294 +2,193 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Klassenquest – Ontdek & Leren</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klassenquests</title>
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(145deg, #ffdde1 0%, #f9c9e2 100%);
-            font-family: 'Comic Neue', 'Segoe UI', 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
-            padding: 30px 24px 50px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
             min-height: 100vh;
+            padding: 20px;
+            color: #333;
         }
-
-        /* Speelse achtergronddecoratie (cirkels) */
-        body::before {
-            content: "";
-            position: fixed;
-            top: -100px;
-            left: -100px;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 220, 150, 0.4);
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            bottom: -80px;
-            right: -80px;
-            width: 280px;
-            height: 280px;
-            background: rgba(120, 200, 255, 0.3);
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
+        
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* HOOFDTITEL */
-        .hero {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            font-size: 3.2rem;
-            background: linear-gradient(135deg, #2b6c91, #3b9fd8);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            text-shadow: 4px 4px 12px rgba(0,0,0,0.1);
-            letter-spacing: -0.5px;
-            margin-bottom: 0.5rem;
-        }
-
-        .sub {
-            font-size: 1.3rem;
-            background: #fef5e7;
-            display: inline-block;
-            padding: 0.3rem 1.5rem;
-            border-radius: 60px;
-            color: #e67e22;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            font-weight: bold;
-        }
-
-        /* GRID - 4 kaarten per rij op groot scherm */
-        .quest-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 28px;
-            margin: 40px 0 30px;
-        }
-
-        /* KLEINE KAART */
-        .quest-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(2px);
-            border-radius: 32px;
-            padding: 20px 18px 22px;
-            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.2);
-            transition: all 0.25s ease-in-out;
-            cursor: pointer;
-            border: 2px solid rgba(255,255,200,0.6);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            gap: 30px;
         }
-
+        
+        /* Header styling */
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Main content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        /* Cards container with horizontal scrolling */
+        .cards-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 15px 0 25px;
+            scrollbar-width: thin;
+            scrollbar-color: #3498db #f0f0f0;
+        }
+        
+        .cards-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .cards-container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        
+        .cards-container::-webkit-scrollbar-thumb {
+            background-color: #3498db;
+            border-radius: 4px;
+        }
+        
+        .cards-scroll {
+            display: flex;
+            gap: 25px;
+            padding: 10px 5px;
+            min-width: min-content;
+        }
+        
+        /* Individual cards */
+        .quest-card {
+            flex: 0 0 280px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #eaeaea;
+        }
+        
         .quest-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 28px 35px -12px rgba(0, 0, 0, 0.3);
-            background: white;
-            border-color: #ffb347;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
         }
-
-        /* bovenkant: titel + icoon */
+        
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+            align-items: flex-start;
         }
-
+        
         .card-title {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: #1f4e6e;
-            line-height: 1.3;
-            letter-spacing: -0.3px;
-            background: linear-gradient(120deg, #1f4e6e, #2c7da0);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            font-size: 1.3rem;
+            color: #2c3e50;
+            font-weight: 600;
         }
-
-        .card-icon {
-            background: #ffe9c7;
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 30px;
-            font-size: 2rem;
-            color: #f39c12;
-            transition: 0.2s;
-        }
-
-        .quest-card:hover .card-icon {
-            background: #ffd966;
-            color: #e67e22;
-            transform: scale(1.02);
-        }
-
-        /* AFBEELDING */
+        
         .card-image {
             width: 100%;
             height: 140px;
-            border-radius: 28px;
-            margin: 12px 0 10px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
             overflow: hidden;
-            background: #fbe9d2;
-            box-shadow: inset 0 0 0 2px rgba(255,215,150,0.6), 0 4px 12px rgba(0,0,0,0.05);
         }
-
+        
         .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
         }
-
-        .quest-card:hover .card-image img {
-            transform: scale(1.05);
-        }
-
-        /* OMSCHRIJVING */
+        
         .card-description {
-            color: #2c3e4e;
+            color: #5d6d7e;
             font-size: 0.95rem;
-            line-height: 1.45;
-            margin-top: 12px;
-            font-weight: 500;
-            flex-grow: 1;
+            line-height: 1.5;
         }
-
-        /* speelse voortgangsbadge (optioneel - kindvriendelijk) */
-        .stats {
-            background: #fef5e7;
-            border-radius: 50px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 6px 20px 6px 16px;
-            margin-top: 15px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #d35400;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .stats i {
-            font-size: 1.4rem;
-            color: #f4c542;
-        }
-
-        .stat-number {
-            background: white;
-            border-radius: 40px;
-            padding: 4px 12px;
-            font-family: monospace;
-            font-size: 1.2rem;
-            color: #e67e22;
-        }
-
-        /* RESPONSIVE: tablet -> 2 kaarten, telefoon -> 1 kaart */
-        @media (max-width: 1000px) {
-            .quest-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 24px;
+                
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
             }
-            h1 { font-size: 2.6rem; }
-        }
-
-        @media (max-width: 580px) {
-            body { padding: 20px 16px; }
-            .quest-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
+            
+            .quest-card {
+                flex: 0 0 260px;
             }
-            .card-title { font-size: 1.4rem; }
-        }
-
-        /* animatie bij binnenkomen */
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .container {
+                padding: 10px;
             }
         }
-
-        .quest-card {
-            animation: fadeSlideUp 0.4s ease backwards;
-        }
-
-        .quest-card:nth-child(1) { animation-delay: 0.02s; }
-        .quest-card:nth-child(2) { animation-delay: 0.07s; }
-        .quest-card:nth-child(3) { animation-delay: 0.12s; }
-        .quest-card:nth-child(4) { animation-delay: 0.17s; }
-        .quest-card:nth-child(5) { animation-delay: 0.22s; }
-        .quest-card:nth-child(6) { animation-delay: 0.27s; }
-
-        /* voetnoot simpel + vrolijk */
-        .simple-footer {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 0.9rem;
-            color: #c4450c;
-            background: rgba(255,250,210,0.7);
-            padding: 12px;
-            border-radius: 60px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .simple-footer i {
-            margin: 0 4px;
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .quest-card {
+                flex: 0 0 240px;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="hero">
-        <h1>🎮 KLASSENQUEST ⚡</h1>
-        <div class="sub">✨ Kies een avontuur en duik in de digitale wereld ✨</div>
+    <div class="container">
+        <header>
+            <h1>KLASSENQUESTS</h1>
+        </header>
+        
+        <main class="main-content">
+            <section class="cards-container">
+                <div class="cards-scroll" id="cards-container">
+                    <!-- Cards will be generated by JavaScript from JSON -->
+                </div>
+            </section>
+        </main>
     </div>
 
-    <!-- Grid met kaarten wordt via JS gevuld -->
-    <div class="quest-grid" id="questGrid"></div>
-
-    <!-- Leuke progressie / vriendelijke aanmoediging (geen verouderde footer tutorial) -->
-    <div class="simple-footer">
-        <i class="fa-regular fa-face-smile"></i> Klik op een kaart en start jouw quest!  
-        <i class="fa-regular fa-star"></i> Leer samen met Sanne & André
-    </div>
-</div>
-
-<script>
-    // ----- JSON DATA (zelfde structuur, uitgebreid met een extra speelse missie voor de leuk) -----
+    <script>
+        // JSON data for the cards
         const questsData = [
             {
                 "id": 'enquete',
@@ -349,53 +248,48 @@
                 </div>
             `;
         }
-    ];
 
-    // Grid container
-    const gridContainer = document.getElementById('questGrid');
-
-    // Functie: kaart HTML bouwen
-    function createCard(quest) {
-        return `
-            <div class="quest-card" data-id="${quest.id}">
-                <div class="card-header">
-                    <h3 class="card-title">${quest.title}</h3>
-                    <div class="card-icon">
-                        <i class="${quest.icon}"></i>
-                    </div>
-                </div>
-                <div class="card-image">
-                    <img src="${quest.image}" alt="${quest.title} afbeelding" loading="lazy">
-                </div>
-                <p class="card-description">${quest.description}</p>
-            </div>
-        `;
-    }
-
-    // Render alle kaarten in de grid
-    function renderGrid() {
-        if (!gridContainer) return;
-        let cardsHTML = '';
-        questsData.forEach(quest => {
-            cardsHTML += createCard(quest);
-        });
-        gridContainer.innerHTML = cardsHTML;
-
-        // Klik-event: navigeer naar presenter.html met ID parameter
-        document.querySelectorAll('.quest-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                // voorkom dat event bubbling problemen geeft
-                e.stopPropagation();
-                const id = card.getAttribute('data-id');
-                if (id) {
-                    window.location.href = `presenter.html?id=${id}`;
-                }
+        // Function to render all cards
+        function renderCards() {
+            const cardsContainer = document.getElementById('cards-container');
+            cardsContainer.innerHTML = '';
+            
+            questsData.forEach(quest => {
+                const cardElement = createCardElement(quest);
+                cardsContainer.innerHTML += cardElement;
             });
-        });
-    }
+            
+            // Add click event listeners to cards
+            document.querySelectorAll('.quest-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    // Navigeer naar selector.html met de ID als query parameter
+                    window.location.href = `selector.html?id=${id}`;
+                });
+            });
+        }
 
-    // start de pagina
-    renderGrid();
-</script>
+        // Function to animate progress bar
+        function animateProgressBar() {
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            // Simulate progress after a delay
+            setTimeout(() => {
+                progressFill.style.width = '100%';
+                progressText.textContent = '1/1';
+            }, 500);
+        }
+
+        // Initialize the page when loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCards();
+            animateProgressBar();
+            
+            // Add some example interaction for the cards
+            console.log("Pagina geladen! Gebruik horizontaal scrollen om alle quests te zien.");
+            console.log("Je kunt de JSON-data aanpassen in het script om nieuwe quests toe te voegen.");
+        });
+    </script>
 </body>
 </html>

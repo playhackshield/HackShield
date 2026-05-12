@@ -2,14 +2,9 @@
     "ratio": 95,
     "iframes": [
         { 
-            "id": 1, 
-            "title": "HackShield", 
-            "url": "https://hackshieldgame.com/" 
-        },
-        { 
             "id": 2, 
             "title": "Quiz", 
-            "url": "https://playhackshield.github.io/quiz/public/teacher.html" 
+            "url": "https://playhackshield.github.io/quiz/teacher.html" 
         },
         { 
             "id": 3, 

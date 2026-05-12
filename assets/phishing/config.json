@@ -5,12 +5,7 @@
             "id": 1, 
             "title": "Kahoot (korte versie)", 
             "url": "https://create.kahoot.it/share/phishing-kort/47da7be5-71a5-4bf4-b175-13ee6e94802d" 
-        },
-        { 
-            "id": 2, 
-            "title": "Kahoot (HackShield level)", 
-            "url": "https://create.kahoot.it/share/phishing-hackshield-level/3c4ee248-b063-4b41-aa40-b7803c3fa1bf" 
-        }                
+        }
     ],
     "playlist" : [
         {

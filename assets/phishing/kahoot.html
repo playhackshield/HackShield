@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kahoot Startpagina</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #101828, #1d2b53);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 760px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 180px;
+      max-width: 70%;
+      margin-bottom: 28px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      background: white;
+      padding: 10px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin: 0 0 10px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #d0d5dd;
+      margin-bottom: 32px;
+    }
+
+    .kahoot-list {
+      display: grid;
+      gap: 20px;
+    }
+
+    .kahoot-card {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      text-decoration: none;
+      color: white;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(10px);
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .kahoot-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+    }
+
+    .kahoot-info {
+      text-align: left;
+    }
+
+    .kahoot-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .kahoot-description {
+      color: #d0d5dd;
+      font-size: 1rem;
+    }
+
+    .open-button {
+      background: #ffcc00;
+      color: #101828;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 14px 22px;
+      border-radius: 999px;
+      min-width: 100px;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(255, 204, 0, 0.35);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .kahoot-card:hover .open-button {
+      transform: scale(1.05);
+      background: #ffe066;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      color: #98a2b3;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 560px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .kahoot-card {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .kahoot-info {
+        text-align: center;
+      }
+
+      .open-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <!-- Vervang hieronder de logo-url door jouw eigen afbeelding -->
+    <img
+      class="logo"
+      src="https://playhackshield.github.io/HackShield/assets/HS11.png"
+      alt="Logo"
+    />
+
+    <h1>Phising 🤖</h1>
+    <p class="subtitle">Kies hieronder welke Kahoot je wilt openen.</p>
+
+    <section class="kahoot-list">
+
+      <!-- Vervang de # door de link naar Kahoot Level 1 -->
+      <a class="kahoot-card" href="https://play.kahoot.it/v2/lobby?quizId=e6455baa-944c-49c2-a965-111076f1ed7a" target="_blank" rel="noopener noreferrer">
+        <div class="kahoot-info">
+          <div class="kahoot-title">🎮 Kahoot - Level 1</div>
+          <div class="kahoot-description">Start met de basis: AI, nep, echt en slim nadenken.</div>
+        </div>
+        <div class="open-button">Open</div>
+      </a>
+
+      <!-- Vervang de # door de link naar Kahoot Level 2 -->
+      <a class="kahoot-card" href="https://play.kahoot.it/v2/*?quizId=db95fa88-1ba5-4daa-9854-ba4442f970f1" target="_blank" rel="noopener noreferrer">
+        <div class="kahoot-info">
+          <div class="kahoot-title">🚀 Kahoot - Level 2</div>
+          <div class="kahoot-description">Iets moeilijker: kritisch kijken, checken en keuzes maken.</div>
+        </div>
+        <div class="open-button">Open</div>
+      </a>
+
+    </section>
+
+    <p class="footer-note">Veel plezier met de Kahoot 🧠</p>
+
+  </main>
+</body>
+</html>

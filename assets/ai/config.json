@@ -10,7 +10,12 @@
             "id": 2, 
             "title": "Kahoot", 
             "url": "https://playhackshield.github.io/HackShield/assets/ai/kahoot.html" 
-        }                
+        },
+        { 
+            "id": 3, 
+            "title": "Beoordeling", 
+            "url": "https://playhackshield.github.io/behavior/index.html" 
+        }
     ],
     "playlist" : [
         {

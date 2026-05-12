@@ -6,5 +6,13 @@
             "title": "Kahoot", 
             "url": "https://playhackshield.github.io/HackShield/assets/ai/kahoot.html" 
         }
-    ]
+    ],
+    "playlist" : [
+        {
+            "title": "Intro",
+            "type": "video",
+            "src": "Talentenfontein 01.mp4",
+            "loop": true
+        }
+   ]
 }

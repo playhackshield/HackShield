@@ -16,42 +16,49 @@
             {
                 "id": "enquete",
                 "title": "Enquête",
+                "icon": "fa-clipboard-list",
                 "image": "assets/HSmini00.jpg",
                 "description": "Laten we elkaar leren kennen."
             },
             {
                 "id": "introductie",
                 "title": "Introductie",
+                "icon": "fa-info-circle",
                 "image": "assets/HSmini01.webp",
                 "description": "De introductie van HackShield."
             },
             {
                 "id": "talentenfontein",
                 "title": "De Talentenfontein",
+                "icon": "fa-star",
                 "image": "assets/HSmini02.webp",
                 "description": "Ontdek in deze quest jouw unieke set aan talenten."
             },
             {
                 "id": "phishing",
                 "title": "Phishing",
+                "icon": "fa-fish",
                 "image": "assets/HSmini03.webp",
                 "description": "Leer hoe je phishing kunt herkennen en voorkomen."
             },
             {
                 "id": "spanning",
                 "title": "Omgaan met spanning",
+                "icon": "fa-heart",
                 "image": "assets/HSmini04.webp",
                 "description": "Hoe om te gaan met dingen op internet die je spanning geven."
             },
             {
                 "id": "ai",
                 "title": "AI",
+                "icon": "fa-robot",
                 "image": "assets/HSmini05.webp",
                 "description": "Hoe we veilig en plezierig met AI kunnen omgaan."
             },
             {
                 "id": "filterfabriek",
                 "title": "De Filterfabriek",
+                "icon": "fa-filter",
                 "image": "assets/HSmini06.webp",
                 "description": "Leer hier hoe jij echt van nep blijft zien in de digitale wereld."
             }
@@ -65,20 +72,6 @@
                 '#B5EAD7', '#C7CEEA', '#FFDAC1', '#E2F0CB', '#FFC4E1'
             ];
             return pastels[Math.floor(Math.random() * pastels.length)];
-        }
-
-        // Functie om een icoon te kiezen op basis van de titel
-        function getIconForTitle(title) {
-            const iconMap = {
-                'Enquête': 'fa-clipboard-list',
-                'Introductie': 'fa-info-circle',
-                'De Talentenfontein': 'fa-star',
-                'Phishing': 'fa-fish',
-                'Omgaan met spanning': 'fa-heart',
-                'AI': 'fa-robot',
-                'De Filterfabriek': 'fa-filter'
-            };
-            return iconMap[title] || 'fa-gamepad';
         }
 
         // Functie om een achtergrondverloop te kiezen op basis van de ID
@@ -97,7 +90,6 @@
 
         // Functie om een kaart te maken
         function createCardElement(quest, index) {
-            const iconClass = getIconForTitle(quest.title);
             const gradient = getCardGradient(quest.id);
             const pastelColor = getRandomPastel();
             
@@ -108,7 +100,7 @@
                         <div class="card-header">
                             <h3 class="card-title">${quest.title}</h3>
                             <div class="card-icon" style="background: ${pastelColor}">
-                                <i class="fas ${iconClass}"></i>
+                                <i class="fas ${quest.icon}"></i>
                             </div>
                         </div>
                         <div class="card-image">

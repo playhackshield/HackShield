@@ -7,19 +7,9 @@
             "url": "https://playhackshield.github.io/HackShield/presenter.html?id=talentenfontein" 
         },
         { 
-            "id": 2, 
-            "title": "Wikipedia EN", 
-            "url": "https://playhackshield.github.io/HackShield/TalentenFontein" 
-        },
-        { 
             "id": 3, 
-            "title": "Wikipedia DE", 
-            "url": "https://de.wikipedia.org/wiki/Wikipedia:Hauptseite" 
-        },
-        { 
-            "id": 4, 
-            "title": "Wikipedia FR", 
-            "url": "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal" 
+            "title": "Beoordeling", 
+            "url": "https://playhackshield.github.io/behavior/index.html" 
         }
     ],
     "playlist" : [

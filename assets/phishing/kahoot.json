@@ -3,12 +3,12 @@
   "subtitel": "Kies hieronder welke Kahoot je wilt openen.",
   "quizes": [
     {
-      "titel": "🎮 Kahoot - Phishing (snelle quiz)",
+      "titel": "🎮 Phishing - Snelle quiz",
       "beschrijving": "Korte phishing quiz: Herken snel de stinkende berichten.",
       "url": "https://play.kahoot.it/v2/?quizId=47da7be5-71a5-4bf4-b175-13ee6e94802d&hostId=858b3032-1590-4745-a15d-5149db08f79f"
     },
     {
-      "titel": "🚀 Kahoot - Phishing (HackShield level)",
+      "titel": "🚀 Phishing - HackShield level",
       "beschrijving": "Speel een Kahoot met de berichten uit het HackShield level.",
       "url": "https://play.kahoot.it/v2/?quizId=3c4ee248-b063-4b41-aa40-b7803c3fa1bf&hostId=858b3032-1590-4745-a15d-5149db08f79f"
     }

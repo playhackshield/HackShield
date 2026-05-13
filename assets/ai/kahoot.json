@@ -1,0 +1,16 @@
+{
+  "titel": "AI & Digitale Weerbaarheid 🤖",
+  "subtitel": "Kies hieronder welke Kahoot je wilt openen.",
+  "quizes": [
+    {
+      "titel": "🎮 Kahoot - Level 1",
+      "beschrijving": "Start met de basis: AI, nep, echt en slim nadenken.",
+      "url": "https://play.kahoot.it/v2/lobby?quizId=e6455baa-944c-49c2-a965-111076f1ed7a"
+    },
+    {
+      "titel": "🚀 Kahoot - Level 2",
+      "beschrijving": "Iets moeilijker: kritisch kijken, checken en keuzes maken.",
+      "url": "https://play.kahoot.it/v2/lobby?quizId=db95fa88-1ba5-4daa-9854-ba4442f970f1"
+    }
+  ]
+}

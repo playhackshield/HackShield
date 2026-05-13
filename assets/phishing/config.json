@@ -3,6 +3,11 @@
     "iframes": [
         { 
             "id": 1, 
+            "title": "HackShield", 
+            "url": "https://hackshieldgame.com/nl/game" 
+        },
+        { 
+            "id": 2, 
             "title": "Kahoot", 
             "url": "https://playhackshield.github.io/HackShield/kahoot.html?data=https://playhackshield.github.io/HackShield/assets/phishing/kahoot.json" 
         },

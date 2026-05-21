@@ -1,0 +1,28 @@
+{
+    "ratio": 95,
+    "iframes": [
+        { 
+            "id": 1, 
+            "title": "Wachtwoord kluis", 
+            "url": "https://playhackshield.github.io/leerling/wachtwoord.html" 
+        },
+        { 
+            "id": 2, 
+            "title": "Kahoot", 
+            "url": "https://playhackshield.github.io/HackShield/kahoot.html?data=https://playhackshield.github.io/HackShield/assets/wachtwoord/kahoot.json" 
+        },
+        { 
+            "id": 3, 
+            "title": "Beoordeling", 
+            "url": "https://playhackshield.github.io/behavior/index.html" 
+        }
+    ],
+    "playlist" : [
+        {
+            "title": "Intro",
+            "type": "video",
+            "src": "Talentenfontein 01.mp4",
+            "loop": true
+        }
+   ]
+}

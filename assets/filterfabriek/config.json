@@ -18,6 +18,11 @@
         },
         { 
             "id": 4, 
+            "title": "Time!", 
+            "url": "https://playhackshield.github.io/leerling/timerspel.html" 
+        },
+        { 
+            "id": 5, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
         }

@@ -7,7 +7,17 @@
             "url": "https://playhackshield.github.io/HackShield/presenter.html?id=filterfabriek" 
         },
         { 
+            "id": 2, 
+            "title": "Groepen", 
+            "url": "https://playhackshield.github.io/leerling/groepenkiezer.html" 
+        },
+        { 
             "id": 3, 
+            "title": "Freeze! Move!", 
+            "url": "https://playhackshield.github.io/leerling/beweegstastil.html" 
+        },
+        { 
+            "id": 4, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
         }

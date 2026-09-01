@@ -10,6 +10,16 @@
             "id": 3, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
+        },
+        { 
+            "id": 4, 
+            "title": "Kennismakingsronde", 
+            "url": "https://playhackshield.github.io/leerling/kennismakinga.html" 
+        },
+        { 
+            "id": 5, 
+            "title": "Kennismakingsquiz", 
+            "url": "https://playhackshield.github.io/leerling/kennismakingb.html" 
         }
     ],
     "playlist" : [

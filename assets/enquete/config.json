@@ -2,14 +2,19 @@
     "ratio": 95,
     "iframes": [
         { 
-            "id": 2, 
-            "title": "Quiz", 
-            "url": "https://playhackshield.github.io/quiz/teacher.html" 
+            "id": 1, 
+            "title": "Intro", 
+            "url": "https://1drv.ms/p/c/bc5b26517a91440a/IQQKeLY6EeO1TYvRvcYGxdzIAYdYeX5Op9PsLgY8hc7_Sjs?em=2&amp;wdAr=1.7777777777777777" 
         },
         { 
-            "id": 3, 
+            "id": 2, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
+        },
+        { 
+            "id": 3,
+            "title": "Score", 
+            "url": "https://playhackshield.github.io/leerling/scoreslider.html" 
         },
         { 
             "id": 4, 

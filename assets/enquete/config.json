@@ -25,6 +25,11 @@
             "id": 5, 
             "title": "Kennismakingsquiz", 
             "url": "https://playhackshield.github.io/leerling/kennismakingb.html" 
+        },
+        { 
+            "id": 6, 
+            "title": "Enquete", 
+            "url": "https://playhackshield.github.io/quiz/teacher.html" 
         }
     ],
     "playlist" : [

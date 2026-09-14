@@ -1,0 +1,44 @@
+{
+    "ratio": 95,
+    "iframes": [
+        { 
+            "id": 1, 
+            "title": "De Filterfabriek", 
+            "url": "https://playhackshield.github.io/HackShield/presenter.html?id=filterfabriek" 
+        },
+        { 
+            "id": 2, 
+            "title": "Groepen", 
+            "url": "https://playhackshield.github.io/leerling/groepenkiezer.html" 
+        },
+        { 
+            "id": 3, 
+            "title": "Freeze! Move!", 
+            "url": "https://playhackshield.github.io/leerling/beweegstastil.html" 
+        },
+        { 
+            "id": 4, 
+            "title": "Time!", 
+            "url": "https://playhackshield.github.io/leerling/timerspel.html" 
+        },
+        { 
+            "id": 5, 
+            "title": "Beoordeling", 
+            "url": "https://playhackshield.github.io/behavior/index.html" 
+        }
+    ],
+    "playlist" : [
+        {
+            "title": "Intro",
+            "type": "video",
+            "src": "Talentenfontein 01.mp4",
+            "loop": true
+        },
+        {
+            "title": "Uitleg", 
+            "type": "video",
+            "src": "Talentenfontein 02.mp4",
+            "loop": false
+        }
+    ]
+}

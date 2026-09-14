@@ -3,26 +3,21 @@
     "iframes": [
         { 
             "id": 1, 
-            "title": "De Filterfabriek", 
-            "url": "https://playhackshield.github.io/HackShield/presenter.html?id=filterfabriek" 
+            "title": "Internet", 
+            "url": "https://playhackshield.github.io/HackShield/presenter.html?id=internet" 
         },
         { 
             "id": 2, 
-            "title": "Groepen", 
+            "title": "Quiz", 
             "url": "https://playhackshield.github.io/leerling/groepenkiezer.html" 
         },
         { 
             "id": 3, 
-            "title": "Freeze! Move!", 
-            "url": "https://playhackshield.github.io/leerling/beweegstastil.html" 
-        },
-        { 
-            "id": 4, 
             "title": "Time!", 
             "url": "https://playhackshield.github.io/leerling/timerspel.html" 
         },
         { 
-            "id": 5, 
+            "id": 4, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
         }
@@ -31,13 +26,13 @@
         {
             "title": "Intro",
             "type": "video",
-            "src": "Talentenfontein 01.mp4",
-            "loop": true
+            "src": "Resultaat 1 - Internet Introductie.mp4",
+            "loop": false
         },
         {
             "title": "Uitleg", 
             "type": "video",
-            "src": "Talentenfontein 02.mp4",
+            "src": "Resultaat 1 - Waar leeft het internet.mp4",
             "loop": false
         }
     ]

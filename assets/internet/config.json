@@ -2,6 +2,11 @@
     "ratio": 95,
     "iframes": [
         { 
+            "id": 0, 
+            "title": "HackShield", 
+            "url": "https://hackshieldgame.com/nl/game" 
+        },
+        { 
             "id": 1, 
             "title": "Internet", 
             "url": "https://playhackshield.github.io/HackShield/presenter.html?id=internet" 

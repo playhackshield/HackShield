@@ -7,19 +7,9 @@
             "url": "https://hackshieldgame.com/nl/game" 
         },
         { 
-            "id": 1, 
-            "title": "Video", 
-            "url": "https://playhackshield.github.io/HackShield/presenter.html?id=internet" 
-        },
-        { 
             "id": 2, 
-            "title": "Quiz", 
+            "title": "Games", 
             "url": "https://playhackshield.github.io/leerling/groepenkiezer.html" 
-        },
-        { 
-            "id": 3, 
-            "title": "Time!", 
-            "url": "https://playhackshield.github.io/leerling/timerspel.html" 
         },
         { 
             "id": 4, 

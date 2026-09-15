@@ -23,6 +23,11 @@
         },
         { 
             "id": 4, 
+            "title": "Werking", 
+            "url": "https://playhackshield.github.io/HackShield/assets/internet/magische_reis_van_een_appje.html" 
+        },
+        { 
+            "id": 5, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
         }

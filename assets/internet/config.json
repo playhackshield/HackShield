@@ -8,8 +8,13 @@
         },
         { 
             "id": 2, 
-            "title": "Games", 
+            "title": "Groepen", 
             "url": "https://playhackshield.github.io/leerling/groepenkiezer.html" 
+        },
+        { 
+            "id": 3, 
+            "title": "Timer-spel", 
+            "url": "https://playhackshield.github.io/leerling/timerspel.html" 
         },
         { 
             "id": 4, 

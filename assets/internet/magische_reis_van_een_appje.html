@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De Magische Reis van een Appje: Van Nederland naar Japan!</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts for Kids (Fredoka & Plus Jakarta Sans) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap">
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      user-select: none;
+    }
+    h1, h2, h3, .font-kids {
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+
+    /* Custom Animations */
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.8; }
+    }
+    .animate-pulse-glow {
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-float {
+      animation: float 3s infinite ease-in-out;
+    }
+
+    @keyframes wave-bounce {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.1) rotate(-5deg); }
+      75% { transform: scale(1.1) rotate(5deg); }
+    }
+    .animate-bounce-fun {
+      animation: wave-bounce 1.5s infinite ease-in-out;
+    }
+
+    /* Progress Trail Line Glow */
+    .progress-trail {
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide-card {
+      transition: all 0.4s ease;
+    }
+
+    /* Custom Scrollbar for inner elements if needed */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
+
+  <!-- Top Navigation Bar & Interactive Route Map -->
+  <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/60 sticky top-0 z-50 p-4">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Title Badge -->
+      <div class="flex items-center gap-3">
+        <span class="bg-sky-500 text-white p-2.5 rounded-2xl shadow-lg shadow-sky-500/30 text-xl animate-float">
+          📱 ✈️ 🇯🇵
+        </span>
+        <div>
+          <h1 class="text-xl md:text-2xl font-bold text-white tracking-wide">De Magische Reis van een Appje!</h1>
+          <p class="text-xs text-sky-400 font-semibold">Van Nederland 🇳🇱 naar Japan 🇯🇵</p>
+        </div>
+      </div>
+
+      <!-- Route Flow Tracker Nodes -->
+      <div class="relative w-full md:w-auto flex items-center justify-between gap-2 bg-slate-900/90 px-4 py-2.5 rounded-2xl border border-slate-700/80 shadow-inner overflow-x-auto">
+        
+        <!-- Track Background Line -->
+        <div class="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-1.5 bg-slate-700 rounded-full z-0"></div>
+        <!-- Glowing Active Progress Line -->
+        <div id="progress-line" class="absolute left-6 top-1/2 -translate-y-1/2 h-1.5 bg-gradient-to-r from-sky-400 via-amber-400 to-emerald-400 rounded-full z-0 progress-trail" style="width: 0%;"></div>
+
+        <!-- Node 1: NL Phone -->
+        <button onclick="goToSlide(0)" id="node-0" class="node-btn relative z-10 flex flex-col items-center group focus:outline-none">
+          <div class="w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center font-bold shadow-md transition-all transform scale-110 ring-4 ring-sky-400/40">
+            📱
+          </div>
+          <span class="text-[10px] font-semibold mt-1 text-sky-300">Start</span>
+        </button>
+
+        <!-- Node 2: Zendmast NL -->
+        <button onclick="goToSlide(1)" id="node-1" class="node-btn relative z-10 flex flex-col items-center group focus:outline-none">
+          <div class="w-10 h-10 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold shadow-md transition-all">
+            📡
+          </div>
+          <span class="text-[10px] font-semibold mt-1 text-slate-400">Mast</span>
+        </button>
+
+        <!-- Node 3: Server NL -->
+        <button onclick="goToSlide(2)" id="node-2" class="node-btn relative z-10 flex flex-col items-center group focus:outline-none">
+          <div class="w-10 h-10 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold shadow-md transition-all">
+            🖥️
+          </div>
+          <span class="text-[10px] font-semibold mt-1 text-slate-400">Server</span>
+        </button>
+
+        <!-- Node 4: Oceaan Kabel -->
+        <button onclick="goToSlide(3)" id="node-3" class="node-btn relative z-10 flex flex-col items-center group focus:outline-none">
+          <div class="w-10 h-10 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold shadow-md transition-all">
+            🌊
+          </div>
+          <span class="text-[10px] font-semibold mt-1 text-slate-400">Oceaan</span>
+        </button>
+
+        <!-- Node 5: Japan Mast -->
+        <button onclick="goToSlide(4)" id="node-4" class="node-btn relative z-10 flex flex-col items-center group focus:outline-none">
+          <div class="w-10 h-10 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold shadow-md transition-all">
+            🗼
+          </div>
+          <span class="text-[10px] font-semibold mt-1 text-slate-400">Japan</span>
+        </button>
+
+        <!-- Node 6: Vriend Japan -->
+        <button onclick="goToSlide(5)" id="node-5" class="node-btn relative z-10 flex flex-col items-center group focus:outline-none">
+          <div class="w-10 h-10 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold shadow-md transition-all">
+            🎉
+          </div>
+          <span class="text-[10px] font-semibold mt-1 text-slate-400">Ping!</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Slide Display Area -->
+  <main class="flex-grow flex items-center justify-center p-4 md:p-8 max-w-6xl mx-auto w-full">
+    <div class="w-full relative">
+      
+      <!-- SLIDE 1: Start Telefoon Nederland -->
+      <section id="slide-0" class="slide-card bg-slate-800 border-2 border-sky-500/40 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">📱</div>
+        
+        <div class="flex items-center gap-2 mb-3">
+          <span class="bg-sky-500/20 text-sky-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-sky-500/30">Stap 1 van 6</span>
+          <span class="text-xs text-slate-400">🇳🇱 Nederland</span>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+          1. Het Vertrekpunt: Jouw Telefoon 📱
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <p class="text-lg text-slate-200 leading-relaxed">
+              Stel je voor: jij zit lekker op de bank in Nederland. Je typt een super leuk berichtje naar je vriend(in) in Japan: 
+              <span class="bg-sky-500/30 text-sky-200 px-3 py-1 rounded-xl font-bold border border-sky-400/40 inline-block mt-1">"Hoooi! 🐼"</span>
+            </p>
+
+            <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-700">
+              <h4 class="font-bold text-sky-400 flex items-center gap-2 mb-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> De Telefoon Magie:
+              </h4>
+              <p class="text-sm text-slate-300">
+                Wanneer je op <b>'Versturen'</b> drukt, verandert je telefoon jouw tekst en emoji direct in een geheim digitaal pakketje vol piepkleine <b>0-en en 1-en</b>!
+              </p>
+            </div>
+          </div>
+
+          <!-- Visual Demonstration Card -->
+          <div class="bg-gradient-to-br from-slate-900 to-sky-950 p-6 rounded-3xl border border-sky-500/30 flex flex-col items-center justify-center shadow-inner relative">
+            <div class="w-48 bg-slate-800 rounded-3xl p-4 border-4 border-slate-600 shadow-2xl flex flex-col justify-between h-72">
+              <div class="flex justify-between items-center text-[10px] text-slate-400 px-1">
+                <span>12:00</span>
+                <span>📶 88%</span>
+              </div>
+              
+              <!-- Chat Bubble Interactive Simulation -->
+              <div class="space-y-2">
+                <div class="bg-sky-600 text-white rounded-2xl rounded-tr-none p-3 text-sm shadow animate-bounce-fun">
+                  Hoooi! 🐼
+                </div>
+                <div class="text-[10px] text-sky-300 text-right flex items-center justify-end gap-1">
+                  <span>Verstuurd</span>
+                  <i class="fa-solid fa-check-double"></i>
+                </div>
+              </div>
+
+              <!-- Animated Digital Binary Stream -->
+              <div class="bg-slate-900/90 rounded-xl p-2 text-center text-xs font-mono text-emerald-400 tracking-widest border border-emerald-500/30">
+                01001000 01101111 🐼
+              </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-4 text-center">Jouw tekst wordt omgezet in digitale codes!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Zendmast Nederland -->
+      <section id="slide-1" class="slide-card bg-slate-800 border-2 border-indigo-500/40 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">📡</div>
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-indigo-500/30">Stap 2 van 6</span>
+          <span class="text-xs text-slate-400">📡 Zendmast in de buurt</span>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+          2. De Lucht In: Naar de Zendmast! 📡
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <p class="text-lg text-slate-200 leading-relaxed">
+              Jouw berichtje kan niet zomaar zelf heel ver lopen. Dus vuurt de telefoon het berichtje onzichtbaar door de lucht met <b>radiogolven</b>!
+            </p>
+
+            <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-700">
+              <h4 class="font-bold text-indigo-400 flex items-center gap-2 mb-1">
+                <i class="fa-solid fa-tower-cell text-indigo-300"></i> De Provider Poort:
+              </h4>
+              <p class="text-sm text-slate-300">
+                De grote zendmast in jouw straat (van KPN, Odido of Vodafone) vangt dit signaal op en stuurt het in een flits de kabel in onder de straat.
+              </p>
+            </div>
+          </div>
+
+          <!-- Animation Antenna -->
+          <div class="bg-gradient-to-br from-slate-900 to-indigo-950 p-6 rounded-3xl border border-indigo-500/30 flex flex-col items-center justify-center min-h-[260px] relative">
+            <div class="relative flex items-center justify-center">
+              <!-- Animated Waves -->
+              <div class="absolute w-32 h-32 rounded-full border-2 border-indigo-400/30 animate-ping"></div>
+              <div class="absolute w-44 h-44 rounded-full border-2 border-indigo-300/20 animate-pulse"></div>
+              
+              <div class="text-7xl z-10 animate-float text-indigo-400">
+                📡
+              </div>
+            </div>
+            <div class="mt-6 flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-xl border border-indigo-500/40 text-xs text-indigo-200 font-semibold">
+              <i class="fa-solid fa-wifi animate-pulse"></i> Draadloze Radiogolven ⚡
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Computercentrum / Server Nederland -->
+      <section id="slide-2" class="slide-card bg-slate-800 border-2 border-amber-500/40 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">🖥️</div>
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class="bg-amber-500/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-amber-500/30">Stap 3 van 6</span>
+          <span class="text-xs text-slate-400">🏬 Datacenter Nederland</span>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+          3. De Digitale Postkamer: De Server 🖥️
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <p class="text-lg text-slate-200 leading-relaxed">
+              Vanaf de zendmast schiet het pakketje naar een supergrote computer: <b>de Server</b> (het datacenter van WhatsApp of Signal).
+            </p>
+
+            <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-700">
+              <h4 class="font-bold text-amber-400 flex items-center gap-2 mb-1">
+                <i class="fa-solid fa-boxes-packing text-amber-400"></i> Slim Sorteercentrum:
+              </h4>
+              <p class="text-sm text-slate-300">
+                De server bekijkt het digitaal adres en zegt: <i>"Attentie! Dit berichtje moet helemaal naar een telefoon in <b>Japan</b>!"</i>
+              </p>
+            </div>
+          </div>
+
+          <!-- Server Stack Visual -->
+          <div class="bg-gradient-to-br from-slate-900 to-amber-950 p-6 rounded-3xl border border-amber-500/30 flex flex-col items-center justify-center min-h-[260px] space-y-3">
+            <div class="w-full bg-slate-800 rounded-xl p-3 border border-amber-500/40 flex items-center justify-between shadow">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🖥️</span>
+                <span class="text-xs font-bold text-slate-200">Server NL #1</span>
+              </div>
+              <span class="w-3 h-3 bg-emerald-400 rounded-full animate-ping"></span>
+            </div>
+            
+            <div class="w-full bg-amber-500/20 rounded-xl p-3 border border-amber-400/60 flex items-center justify-between shadow">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">📦</span>
+                <span class="text-xs font-bold text-amber-300">Adres: Tokyo, Japan 🇯🇵</span>
+              </div>
+              <span class="text-xs bg-amber-500 text-slate-900 font-extrabold px-2 py-0.5 rounded">Gevonden!</span>
+            </div>
+
+            <div class="w-full bg-slate-800 rounded-xl p-3 border border-amber-500/40 flex items-center justify-between shadow">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🖥️</span>
+                <span class="text-xs font-bold text-slate-200">Server NL #2</span>
+              </div>
+              <span class="w-3 h-3 bg-emerald-400 rounded-full"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Oceaan & Glasvezelkabel -->
+      <section id="slide-3" class="slide-card bg-slate-800 border-2 border-cyan-500/40 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">🌊</div>
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class="bg-cyan-500/20 text-cyan-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-500/30">Stap 4 van 6</span>
+          <span class="text-xs text-slate-400">🌊 Diep onder de zee</span>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+          4. De Gigantische Duik: De Zeekabel! 🌊⚡
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <p class="text-lg text-slate-200 leading-relaxed">
+              Nu komt het spannendste stuk! Het appje reist niet door de wolken, maar schiet <b>onder de oceaan</b> door superdikke kabels op de zeebodem.
+            </p>
+
+            <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-700">
+              <h4 class="font-bold text-cyan-400 flex items-center gap-2 mb-1">
+                <i class="fa-solid fa-bolt-lightning text-amber-300"></i> Met de snelheid van het LICHT:
+              </h4>
+              <p class="text-sm text-slate-300">
+                In de kabel zitten dunne glasvezel-draadjes. Het berichtje reist als <b>flitsende laserstraaltjes</b> met 300.000 km per seconde langs de vissen! 🐠
+              </p>
+            </div>
+          </div>
+
+          <!-- Deep Sea Cable Graphic -->
+          <div class="bg-gradient-to-b from-blue-900 via-cyan-950 to-slate-950 p-6 rounded-3xl border border-cyan-500/40 flex flex-col items-center justify-between min-h-[260px] relative overflow-hidden">
+            <!-- Swimming Fish Emojis -->
+            <div class="absolute left-4 top-6 text-xl animate-float">🐠</div>
+            <div class="absolute right-6 top-16 text-2xl animate-bounce-fun">🐙</div>
+            <div class="absolute left-1/3 bottom-4 text-xl animate-float" style="animation-delay: 1.5s;">🦀</div>
+
+            <div class="text-xs text-cyan-300 font-bold mb-4 bg-cyan-950/80 px-3 py-1 rounded-full border border-cyan-500/30">
+              🌊 9.000 km Onderzeekabel
+            </div>
+
+            <!-- Glowing Fiber Optic Cable Simulation -->
+            <div class="w-full h-12 bg-slate-900 rounded-2xl border-2 border-slate-600 relative overflow-hidden flex items-center px-4 my-auto shadow-inner">
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400 to-transparent w-full h-full opacity-40 animate-pulse"></div>
+              
+              <!-- Laser light pulse line -->
+              <div class="w-full h-3 bg-slate-800 rounded-full relative overflow-hidden">
+                <div class="absolute h-full w-24 bg-gradient-to-r from-amber-300 via-cyan-300 to-white rounded-full shadow-lg shadow-cyan-400 animate-pulse" style="animation: laser-slide 1.5s infinite linear;"></div>
+              </div>
+            </div>
+
+            <p class="text-[11px] text-cyan-200/80 text-center mt-2">
+              Lichtflitsjes schieten door de oceaan richting Azië! ✨
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Server & Zendmast Japan -->
+      <section id="slide-4" class="slide-card bg-slate-800 border-2 border-rose-500/40 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">🗼</div>
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class="bg-rose-500/20 text-rose-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-rose-500/30">Stap 5 van 6</span>
+          <span class="text-xs text-slate-400">🇯🇵 Japan</span>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+          5. Aankomst in Japan! 🗼🌸
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <p class="text-lg text-slate-200 leading-relaxed">
+              *PLONS!* Aan de andere kant van de oceaan komt de kabel weer boven water in Japan! 
+            </p>
+
+            <div class="bg-slate-900/80 rounded-2xl p-4 border border-slate-700">
+              <h4 class="font-bold text-rose-400 flex items-center gap-2 mb-1">
+                <i class="fa-solid fa-location-dot text-rose-400"></i> Japanse Zendmast:
+              </h4>
+              <p class="text-sm text-slate-300">
+                De Japanse server ontvangt de lichtcode en stuurt het razendsnel door naar de zendmast in de stad waar jouw vriend(in) woont!
+              </p>
+            </div>
+          </div>
+
+          <!-- Japan Landmarks Illustration -->
+          <div class="bg-gradient-to-br from-slate-900 to-rose-950 p-6 rounded-3xl border border-rose-500/30 flex flex-col items-center justify-center min-h-[260px] relative">
+            <div class="flex items-center justify-center gap-6 text-5xl mb-3">
+              <span class="animate-bounce-fun">🗼</span>
+              <span class="animate-float">🌸</span>
+              <span class="text-4xl">🏔️</span>
+            </div>
+
+            <div class="bg-slate-900/90 rounded-2xl p-3 border border-rose-500/40 text-center w-full max-w-xs">
+              <p class="text-xs font-bold text-rose-300 mb-1">Signaal Ontvangen in Tokyo!</p>
+              <div class="w-full bg-rose-500/20 h-2 rounded-full overflow-hidden">
+                <div class="bg-rose-400 h-full w-full animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Ontvangst in Japan - PING! -->
+      <section id="slide-5" class="slide-card bg-slate-800 border-2 border-emerald-500/40 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-[180px] pointer-events-none">🎉</div>
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-500/30">Stap 6 van 6</span>
+          <span class="text-xs text-slate-400">🎉 Binnenboord!</span>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+          6. PING! Berichtje Ontvangen! 🎉📲
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <p class="text-lg text-slate-200 leading-relaxed">
+              De Japanse zendmast zendt het berichtje door de lucht naar de telefoon van je vriend(in). 
+            </p>
+
+            <div class="bg-emerald-950/60 rounded-2xl p-4 border border-emerald-500/40">
+              <h4 class="font-bold text-emerald-300 flex items-center gap-2 mb-1">
+                <i class="fa-solid fa-bell text-amber-300 animate-bounce"></i> PING! "Hoooi! 🐼"
+              </h4>
+              <p class="text-sm text-slate-300">
+                De geheime code verandert direct weer in jouw lieve panda-berichtje op het scherm! En dat allemaal in minder dan **1 seconde**! ⏱️✨
+              </p>
+            </div>
+          </div>
+
+          <!-- Phone Ping Celebration Card -->
+          <div class="bg-gradient-to-br from-slate-900 to-emerald-950 p-6 rounded-3xl border border-emerald-500/40 flex flex-col items-center justify-center min-h-[260px] relative">
+            
+            <div id="ping-box" onclick="triggerPingEffect()" class="cursor-pointer group relative bg-slate-800 p-5 rounded-3xl border-4 border-emerald-400 shadow-2xl text-center transform hover:scale-105 transition-all">
+              <span class="absolute -top-3 -right-3 bg-amber-400 text-slate-900 font-black text-xs px-3 py-1 rounded-full shadow-lg animate-bounce">
+                KLIK MIJ! 🔔
+              </span>
+              <div class="text-5xl mb-2 animate-float">📱</div>
+              <div class="bg-emerald-500 text-white font-bold rounded-2xl p-3 text-base shadow-md">
+                "Hoooi! 🐼"
+              </div>
+              <p class="text-[10px] text-emerald-300 mt-2">Klik voor PING geluidseffect!</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Bottom Interactive Controls Footer -->
+  <footer class="bg-slate-800/90 border-t border-slate-700/80 p-4 sticky bottom-0 z-50">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+      
+      <!-- Prev Button -->
+      <button id="prev-btn" onclick="prevSlide()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-5 py-3 rounded-2xl transition shadow flex items-center gap-2 text-sm md:text-base disabled:opacity-40 disabled:cursor-not-allowed">
+        <i class="fa-solid fa-arrow-left"></i> Vorige
+      </button>
+
+      <!-- Center Info / Quiz Trigger -->
+      <div class="flex items-center gap-3">
+        <span id="slide-indicator" class="text-xs md:text-sm font-bold text-slate-300 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-700">
+          Stap 1 van 6
+        </span>
+
+        <button onclick="toggleQuizModal()" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-900 font-extrabold px-4 py-2.5 rounded-xl shadow-lg shadow-amber-500/20 text-xs md:text-sm flex items-center gap-2 transform hover:scale-105 transition">
+          <i class="fa-solid fa-lightbulb"></i> Weetjes Quiz! 🧩
+        </button>
+      </div>
+
+      <!-- Next Button -->
+      <button id="next-btn" onclick="nextSlide()" class="bg-sky-500 hover:bg-sky-400 text-white font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-sky-500/30 flex items-center gap-2 text-sm md:text-base">
+        Volgende <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+    </div>
+  </footer>
+
+  <!-- Quiz Modal Window -->
+  <div id="quiz-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border-2 border-amber-400/60 rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative">
+      <button onclick="toggleQuizModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <span class="text-4xl">🧩</span>
+        <h3 class="text-2xl font-bold text-white mt-2">Magische Internet Quiz!</h3>
+        <p class="text-xs text-slate-300">Test wat je hebt geleerd over de reis van het appje!</p>
+      </div>
+
+      <!-- Question 1 -->
+      <div id="quiz-q1" class="space-y-3">
+        <p class="font-semibold text-amber-300 text-sm">Waar reist het appje voornamelijk door van Nederland naar Japan?</p>
+        <button onclick="checkAnswer(true)" class="w-full text-left bg-slate-700 hover:bg-slate-600 p-3 rounded-xl text-xs md:text-sm font-medium transition flex items-center gap-2">
+          <span>🌊</span> Door gigantische kabels diep onder de oceaan!
+        </button>
+        <button onclick="checkAnswer(false)" class="w-full text-left bg-slate-700 hover:bg-slate-600 p-3 rounded-xl text-xs md:text-sm font-medium transition flex items-center gap-2">
+          <span>☁️</span> Zwevend door een wolk in de lucht.
+        </button>
+      </div>
+
+      <div id="quiz-feedback" class="mt-4 p-3 rounded-xl text-center font-bold text-sm hidden"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 6;
+
+    // Slide Switching Logic
+    function updateSlides() {
+      for (let i = 0; i < totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        const node = document.getElementById(`node-${i}`);
+        
+        if (i === currentSlide) {
+          slide.classList.remove('hidden');
+          // Node styling active
+          node.children[0].className = 'w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center font-bold shadow-md transition-all transform scale-125 ring-4 ring-sky-400/40';
+          node.children[1].className = 'text-[10px] font-bold mt-1 text-sky-300';
+        } else {
+          slide.classList.add('hidden');
+          // Node styling inactive
+          node.children[0].className = 'w-10 h-10 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold shadow-md transition-all';
+          node.children[1].className = 'text-[10px] font-semibold mt-1 text-slate-400';
+        }
+      }
+
+      // Update progress trail line width
+      const progressPercent = (currentSlide / (totalSlides - 1)) * 100;
+      document.getElementById('progress-line').style.width = `${progressPercent}%`;
+
+      // Update slide counter
+      document.getElementById('slide-indicator').innerText = `Stap ${currentSlide + 1} van ${totalSlides}`;
+
+      // Update prev/next button states
+      document.getElementById('prev-btn').disabled = currentSlide === 0;
+      const nextBtn = document.getElementById('next-btn');
+      if (currentSlide === totalSlides - 1) {
+        nextBtn.innerHTML = `Opnieuw 🔄`;
+        nextBtn.className = "bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-emerald-500/30 flex items-center gap-2 text-sm md:text-base";
+      } else {
+        nextBtn.innerHTML = `Volgende <i class="fa-solid fa-arrow-right"></i>`;
+        nextBtn.className = "bg-sky-500 hover:bg-sky-400 text-white font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-sky-500/30 flex items-center gap-2 text-sm md:text-base";
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlides();
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+      } else {
+        currentSlide = 0; // Restart
+      }
+      updateSlides();
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlides();
+      }
+    }
+
+    // Keyboard Arrow Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Interactive Audio Synthesizer for Kids (Ping sound using Web Audio API)
+    function triggerPingEffect() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Note A5
+        osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.15); // Note A6
+
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+      } catch(e) {
+        console.log("Audio not supported or blocked");
+      }
+
+      // Visual ping animation effect on phone card
+      const pingBox = document.getElementById('ping-box');
+      pingBox.classList.add('scale-110', 'border-amber-400');
+      setTimeout(() => {
+        pingBox.classList.remove('scale-110', 'border-amber-400');
+      }, 300);
+    }
+
+    // Quiz Functions
+    function toggleQuizModal() {
+      const modal = document.getElementById('quiz-modal');
+      modal.classList.toggle('hidden');
+      document.getElementById('quiz-feedback').classList.add('hidden');
+    }
+
+    function checkAnswer(isCorrect) {
+      const feedback = document.getElementById('quiz-feedback');
+      feedback.classList.remove('hidden');
+      if (isCorrect) {
+        feedback.className = "mt-4 p-3 rounded-xl text-center font-bold text-sm bg-emerald-500/30 text-emerald-300 border border-emerald-500/50";
+        feedback.innerText = "HEEL GOED! 🎉 Kabels onder de zee brengen het internet over de hele wereld!";
+      } else {
+        feedback.className = "mt-4 p-3 rounded-xl text-center font-bold text-sm bg-rose-500/30 text-rose-300 border border-rose-500/50";
+        feedback.innerText = "Bijna! Maar de 'cloud' ligt eigenlijk diep onder water in kabels! 🌊";
+      }
+    }
+
+    // Custom Laser Slide Animation Style Insertion
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes laser-slide {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(400%); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initial setup call
+    updateSlides();
+  </script>
+</body>
+</html>

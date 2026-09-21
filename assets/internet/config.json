@@ -36,13 +36,13 @@
         {
             "title": "Intro",
             "type": "video",
-            "src": "assets/internet/Intro - Internet Introductie.mp4",
+            "src": "assets/internet/introductie.mp4",
             "loop": false
         },
         {
             "title": "Uitleg", 
             "type": "video",
-            "src": "assets/internet/Uitleg - Waar leeft het internet.mp4",
+            "src": "assets/internet/uitleg.mp4",
             "loop": false
         }
     ]

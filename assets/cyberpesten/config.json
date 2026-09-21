@@ -2,8 +2,13 @@
     "ratio": 95,
     "iframes": [
         { 
-            "id": 1, 
+            "id": 0, 
             "title": "HackShield", 
+            "url": "https://hackshieldgame.com/nl/game" 
+        },
+        { 
+            "id": 2, 
+            "title": "Video", 
             "url": "https://playhackshield.github.io/HackShield/presenter.html?id=cyberpesten" 
         },
         { 

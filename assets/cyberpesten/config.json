@@ -13,6 +13,11 @@
         },
         { 
             "id": 3, 
+            "title": "Geheim", 
+            "url": "https://playhackshield.github.io/HackShield/assets/cyberpesten/de_echte_magie.html" 
+        },        
+        { 
+            "id": 4, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
         }

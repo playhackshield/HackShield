@@ -2,6 +2,11 @@
     "ratio": 95,
     "iframes": [
         { 
+            "id": 0, 
+            "title": "Video", 
+            "url": "https://playhackshield.github.io/HackShield/presenter.html?id=phishing" 
+        },
+        { 
             "id": 1, 
             "title": "HackShield", 
             "url": "https://hackshieldgame.com/nl/game" 

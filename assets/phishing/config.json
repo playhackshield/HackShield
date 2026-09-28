@@ -31,8 +31,8 @@
         {
             "title": "Intro",
             "type": "video",
-            "src": "Talentenfontein 01.mp4",
-            "loop": true
+            "src": "assets/phishing/uitleg.mp4",
+            "loop": false
         }
    ]
 }

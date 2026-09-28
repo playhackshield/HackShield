@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HackShield: Phishing in Games</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+  }
+
+  .presentation {
+    width: 90vw;
+    max-width: 1000px;
+    height: 85vh;
+    max-height: 650px;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #ffffff 0%, #f0f4ff 100%);
+    border-radius: 24px;
+    padding: 40px 50px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    color: #1a1a2e;
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    display: flex;
+    animation: slideIn 0.5s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  h1 {
+    font-size: 2.4em;
+    color: #0f3460;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.9em;
+    color: #0f3460;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .emoji-big {
+    font-size: 5em;
+    text-align: center;
+    margin: 10px 0;
+    line-height: 1;
+  }
+
+  .emoji-row {
+    font-size: 2.5em;
+    text-align: center;
+    margin: 15px 0;
+    letter-spacing: 10px;
+  }
+
+  p, li {
+    font-size: 1.25em;
+    line-height: 1.6;
+  }
+
+  ul {
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  li {
+    margin-bottom: 14px;
+    padding-left: 40px;
+    position: relative;
+  }
+
+  li::before {
+    content: "👉";
+    position: absolute;
+    left: 0;
+  }
+
+  .highlight {
+    background: #ffe066;
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .card {
+    background: #fff;
+    border-left: 8px solid #e94560;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 1.15em;
+  }
+
+  .card.green { border-left-color: #2ecc71; }
+  .card.blue  { border-left-color: #3498db; }
+  .card.orange{ border-left-color: #f39c12; }
+
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
+  }
+
+  .scenario {
+    background: #f8f9ff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    font-size: 1.02em;
+  }
+
+  .scenario .icon { font-size: 1.8em; }
+
+  .rules {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 15px;
+  }
+
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(90deg, #0f3460, #1a1a2e);
+    color: #fff;
+    padding: 18px 22px;
+    border-radius: 16px;
+    font-size: 1.3em;
+  }
+
+  .rule .num {
+    font-size: 1.8em;
+    background: #ffe066;
+    color: #0f3460;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: bold;
+  }
+
+  .center-text { text-align: center; }
+
+  .subtitle {
+    text-align: center;
+    font-size: 1.3em;
+    color: #555;
+    margin-top: 15px;
+  }
+
+  .nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    padding: 10px 20px;
+    border-radius: 50px;
+    z-index: 100;
+  }
+
+  .nav button {
+    background: #ffe066;
+    border: none;
+    color: #0f3460;
+    font-size: 1.3em;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.15s;
+  }
+
+  .nav button:hover { transform: scale(1.1); }
+  .nav button:disabled { opacity: 0.35; cursor: default; }
+
+  .counter {
+    color: #fff;
+    font-size: 1.1em;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .confetti {
+    font-size: 2.5em;
+    letter-spacing: 8px;
+    text-align: center;
+    margin: 15px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="presentation">
+
+  <!-- SLIDE 1 -->
+  <div class="slide active">
+    <div class="emoji-big">🎣🕵️‍♂️</div>
+    <h1>Pas op voor Phishing!</h1>
+    <p class="subtitle">Ook in je favoriete games zitten oplichters...</p>
+    <div class="emoji-row">🎮 🎁 ⚠️ 🔒</div>
+    <div class="card blue">
+      <strong>Wat is phishing?</strong><br>
+      Iemand doet zich voor als een aardig persoon en geeft je een <span class="highlight">supercadeau</span>... maar pakt dan je account af! 😱
+    </div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide">
+    <h2>🚨 De 3 grootste valkuilen</h2>
+    <div class="rules">
+      <div class="rule">
+        <div class="num">1</div>
+        <div>🎁 <strong>Te mooi om waar te zijn?</strong> Dan is het nep!</div>
+      </div>
+      <div class="rule">
+        <div class="num">2</div>
+        <div>🔑 <strong>Iemand vraagt om je wachtwoord?</strong> Nooit geven!</div>
+      </div>
+      <div class="rule">
+        <div class="num">3</div>
+        <div>👥 <strong>Raar bericht van een vriend?</strong> Eerst vragen!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide">
+    <h2>🎮 Herken je deze?</h2>
+    <div class="scenario-grid">
+      <div class="scenario">
+        <div class="icon">💸</div>
+        <strong>Gratis Robux!</strong><br>
+        "Klik op deze link voor 1000 gratis Robux!"
+      </div>
+      <div class="scenario">
+        <div class="icon">🛡️</div>
+        <strong>Nep-moderator</strong><br>
+        "Ik ben van de game. Geef je wachtwoord om je account te checken."
+      </div>
+      <div class="scenario">
+        <div class="icon">🔗</div>
+        <strong>Link van een vriend</strong><br>
+        "Kijk snel, gratis spullen!" — maar zijn account is gehackt.
+      </div>
+      <div class="scenario">
+        <div class="icon">🔄</div>
+        <strong>Ruil-truc</strong><br>
+        "Ik ruil skins met je!" — en opeens is alles weg.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide">
+    <h2>✅ Waar of niet waar?</h2>
+    <div class="card orange">
+      <strong>"Gratis Robux, klik op de link!"</strong> &nbsp;❌ <em>Nep — gratis + link = oplichter</em>
+    </div>
+    <div class="card orange">
+      <strong>"Vul je wachtwoord in voor een limited skin."</strong> &nbsp;❌ <em>De game vraagt nooit om je wachtwoord</em>
+    </div>
+    <div class="card green">
+      <strong>"Een vriend stuurt een link."</strong> &nbsp;⚠️ <em>Vraag het eerst aan die vriend zelf</em>
+    </div>
+    <div class="card green">
+      <strong>"Iemand wil mijn account kopen."</strong> &nbsp;❌ <em>Mag niet, en is bijna altijd oplichting</em>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide">
+    <h2>🧠 Onthoud deze 2 spreuken!</h2>
+    <div class="emoji-row">✨🧙‍♂️✨</div>
+    <div class="card blue center-text" style="font-size:1.5em; padding: 30px;">
+      "Gratis spullen waar een <span class="highlight">wachtwoord</span> voor nodig is?<br>
+      <strong>Altijd nep!</strong>"
+    </div>
+    <div class="card green center-text" style="font-size:1.5em; padding: 30px;">
+      "Mijn wachtwoord is <span class="highlight">geheim</span>.<br>
+      De game vraagt er <strong>nooit</strong> naar!"
+    </div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide">
+    <h2>🛡️ Jouw 3 Gameveiligheidsregels</h2>
+    <div class="rules">
+      <div class="rule">
+        <div class="num">1</div>
+        <div>💎 <strong>Robux vallen niet uit de lucht.</strong><br>Klik nooit op "gratis"-links.</div>
+      </div>
+      <div class="rule">
+        <div class="num">2</div>
+        <div>🤐 <strong>Mijn wachtwoord is mijn geheim.</strong><br>Geef het aan niemand.</div>
+      </div>
+      <div class="rule">
+        <div class="num">3</div>
+        <div>🙋 <strong>Raar bericht? Stop en vraag het!</strong><br>Niet klikken, niet invullen, eerst vragen.</div>
+      </div>
+    </div>
+    <div class="confetti">🎉 🏆 🎉</div>
+    <p class="center-text" style="font-size:1.2em;">Jij bent nu een <strong>HackShield-held</strong>! 🦸🏻‍♂️🦸🏽‍♀️🦸🏿‍♂️🦸🏼‍♀️🦸🏾‍♂️</p>
+  </div>
+</div>
+
+<!-- NAVIGATIE -->
+<div class="nav">
+  <button id="prev" onclick="changeSlide(-1)">‹</button>
+  <span class="counter" id="counter">1 / 6</span>
+  <button id="next" onclick="changeSlide(1)">›</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+
+  function showSlide(index) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[index].classList.add('active');
+    counter.textContent = (index + 1) + ' / ' + slides.length;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === slides.length - 1;
+  }
+
+  function changeSlide(direction) {
+    current += direction;
+    if (current < 0) current = 0;
+    if (current >= slides.length) current = slides.length - 1;
+    showSlide(current);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+
+  showSlide(0);
+</script>
+
+</body>
+</html>

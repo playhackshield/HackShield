@@ -8,11 +8,16 @@
         },
         { 
             "id": 2, 
+            "title": "Doorfluister", 
+            "url": "https://playhackshield.github.io/leerling/fluisterdigibord.html" 
+        },
+        { 
+            "id": 3, 
             "title": "Kahoot", 
             "url": "https://playhackshield.github.io/HackShield/kahoot.html?data=https://playhackshield.github.io/HackShield/assets/wachtwoord/kahoot.json" 
         },
         { 
-            "id": 3, 
+            "id": 4, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/index.html" 
         }

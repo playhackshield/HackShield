@@ -3,9 +3,9 @@
     "iframes": [
         { 
             "id": 1, 
-            "title": "Wachtwoord kluis", 
-            "url": "https://playhackshield.github.io/leerling/wachtwoord.html" 
-        },
+            "title": "Uitleg", 
+            "url": "https://playhackshield.github.io/HackShield/assets/wachtwoord/uitleg.html"             
+        }
         { 
             "id": 2, 
             "title": "Kahoot", 

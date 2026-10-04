@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sterke Wachtwoorden — Presentatie</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Trebuchet MS', 'Comic Sans MS', Verdana, sans-serif;
+    background: #1a1a2e;
+    overflow: hidden;
+    height: 100vh;
+    color: #fff;
+  }
+
+  .slide {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    padding: 4vh 6vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  h1 { font-size: 4.5vw; margin-bottom: 3vh; line-height: 1.2; }
+  h2 { font-size: 3.5vw; margin-bottom: 3vh; line-height: 1.2; }
+  p  { font-size: 2.2vw; line-height: 1.6; max-width: 85vw; }
+  .big-emoji { font-size: 12vw; margin-bottom: 2vh; line-height: 1; }
+
+  /* Voortgangsbalk */
+  .progress {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* Navigatie */
+  .nav {
+    position: fixed;
+    bottom: 20px; right: 25px;
+    display: flex; gap: 12px;
+    z-index: 100;
+  }
+  .nav button {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 20px;
+    width: 55px; height: 55px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+    backdrop-filter: blur(6px);
+  }
+  .nav button:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+  .slide-num {
+    position: fixed;
+    bottom: 30px; left: 30px;
+    font-size: 16px;
+    opacity: 0.5;
+  }
+
+  /* Kleurvarianten per slide */
+  .s1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+  .s2 { background: linear-gradient(135deg, #eb3349, #f45c43); }
+  .s3 { background: linear-gradient(135deg, #11998e, #38ef7d); }
+  .s4 { background: linear-gradient(135deg, #fc5c7d, #6a82fb); }
+  .s5 { background: linear-gradient(135deg, #f7971e, #ffd200); color: #2c2c2c; }
+  .s6 { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
+  .s7 { background: linear-gradient(135deg, #00b09b, #96c93d); }
+  .s8 { background: linear-gradient(135deg, #283c86, #45a247); }
+
+  /* Bouwstenen slide 3 */
+  .blokken {
+    display: flex;
+    gap: 2vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2vh;
+  }
+  .blok {
+    background: rgba(255,255,255,0.92);
+    color: #11998e;
+    border-radius: 22px;
+    padding: 3vh 3vw;
+    font-size: 2vw;
+    font-weight: bold;
+    min-width: 15vw;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    transition: transform 0.2s;
+  }
+  .blok:hover { transform: translateY(-8px) rotate(-2deg); }
+  .blok .icon { font-size: 4vw; display: block; margin-bottom: 1vh; }
+
+  /* Vergelijking slide 4 */
+  .vergelijk {
+    display: flex;
+    gap: 3vw;
+    margin-top: 2vh;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .kolom {
+    background: rgba(255,255,255,0.92);
+    color: #333;
+    border-radius: 22px;
+    padding: 3vh 3vw;
+    min-width: 30vw;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  }
+  .kolom.zwak { border-top: 10px solid #eb3349; }
+  .kolom.sterk { border-top: 10px solid #38ef7d; }
+  .kolom h3 { font-size: 2.2vw; margin-bottom: 2vh; }
+  .kolom code {
+    display: block;
+    background: #f0f0f0;
+    padding: 1.2vh 1vw;
+    border-radius: 10px;
+    font-size: 1.8vw;
+    margin: 1vh 0;
+    font-family: 'Courier New', monospace;
+  }
+  .kolom.zwak code { color: #c0392b; }
+  .kolom.sterk code { color: #27ae60; }
+
+  /* Ankerkaart slide 6 */
+  .ankers {
+    display: flex;
+    gap: 2vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2vh;
+  }
+  .anker {
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.5);
+    border-radius: 22px;
+    padding: 3vh 2vw;
+    min-width: 18vw;
+    font-size: 1.9vw;
+    backdrop-filter: blur(6px);
+    transition: transform 0.2s;
+  }
+  .anker:hover { transform: scale(1.06); background: rgba(255,255,255,0.28); }
+  .anker .icon { font-size: 5vw; display: block; margin-bottom: 1vh; }
+
+  /* Slide 7 voorbeelden */
+  .voorbeelden {
+    display: flex;
+    gap: 2vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2vh;
+  }
+  .vb {
+    background: rgba(255,255,255,0.95);
+    color: #00b09b;
+    border-radius: 18px;
+    padding: 2.5vh 2.5vw;
+    min-width: 20vw;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  .vb .stap { font-size: 1.5vw; color: #666; margin-bottom: 1vh; }
+  .vb .resultaat {
+    font-family: 'Courier New', monospace;
+    font-size: 2.4vw;
+    font-weight: bold;
+    margin-top: 1vh;
+  }
+
+  /* Slide 8 wachtwoordmanager */
+  .kluis {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    margin-top: 2vh;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .kluis-box {
+    background: rgba(255,255,255,0.95);
+    color: #283c86;
+    border-radius: 22px;
+    padding: 3vh 3vw;
+    font-size: 1.8vw;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    max-width: 40vw;
+    text-align: left;
+    line-height: 1.6;
+  }
+  .kluis-icon { font-size: 12vw; }
+
+  /* Percentage slide 2 */
+  .stats { margin-top: 2vh; width: 80vw; max-width: 900px; }
+  .stat {
+    background: rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 2vh 3vw;
+    margin: 1.5vh 0;
+    backdrop-filter: blur(6px);
+    text-align: left;
+  }
+  .stat .pct { font-size: 3vw; font-weight: bold; }
+  .stat .bar {
+    height: 14px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 7px;
+    margin-top: 1vh;
+    overflow: hidden;
+  }
+  .stat .bar span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #feca57, #ff6b6b);
+    border-radius: 7px;
+    transition: width 0.8s ease;
+  }
+
+  @media (max-width: 700px) {
+    h1 { font-size: 8vw; }
+    h2 { font-size: 7vw; }
+    p  { font-size: 4.5vw; }
+    .blok, .anker, .vb { min-width: 60vw; font-size: 4vw; }
+    .kolom { min-width: 70vw; }
+    .kolom code { font-size: 4vw; }
+    .stat .pct { font-size: 6vw; }
+    .kluis-box { max-width: 80vw; font-size: 4vw; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 — Opening -->
+<div class="slide s1 active">
+  <div class="big-emoji">🔐</div>
+  <h1>Je wachtwoord is de sleutel<br>van je game-account</h1>
+  <p>Maar hoe maak je een sleutel die niemand kan raden? 🕵️</p>
+</div>
+
+<!-- SLIDE 2 — Hoe snel kraakt een hacker -->
+<div class="slide s2">
+  <h2>⏱️ Hoe snel raadt een hacker jouw wachtwoord?</h2>
+  <div class="stats">
+    <div class="stat">
+      <div class="pct">48% <span style="font-size:1.8vw;">→ binnen 1 minuut 🏃</span></div>
+      <div class="bar"><span style="width:48%"></span></div>
+    </div>
+    <div class="stat">
+      <div class="pct">60% <span style="font-size:1.8vw;">→ binnen 1 uur ⏰</span></div>
+      <div class="bar"><span style="width:60%"></span></div>
+    </div>
+    <div class="stat">
+      <div class="pct">100% <span style="font-size:1.8vw;">→ 8 tekens of minder: binnen 24 uur 💥</span></div>
+      <div class="bar"><span style="width:100%"></span></div>
+    </div>
+  </div>
+  <p style="margin-top:3vh;"><strong>Kort wachtwoord = meteen weg.</strong></p>
+</div>
+
+<!-- SLIDE 3 — 4 bouwstenen -->
+<div class="slide s3">
+  <h2>🧱 De 4 bouwstenen van een sterk wachtwoord</h2>
+  <div class="blokken">
+    <div class="blok"><span class="icon">🅰️</span>Hoofdletters</div>
+    <div class="blok"><span class="icon">🔡</span>Kleine letters</div>
+    <div class="blok"><span class="icon">🔢</span>Cijfers</div>
+    <div class="blok"><span class="icon">❗</span>Symbolen</div>
+  </div>
+  <p style="margin-top:4vh;">Alle vier erin? Dan wordt het al een stuk moeilijker! 💪</p>
+</div>
+
+<!-- SLIDE 4 — Zwak vs sterk -->
+<div class="slide s4">
+  <h2>👀 Zwak vs. Sterk</h2>
+  <div class="vergelijk">
+    <div class="kolom zwak">
+      <h3>😴 Zwak</h3>
+      <code>roblox123</code>
+      <code>minecraft</code>
+      <code>123456</code>
+    </div>
+    <div class="kolom sterk">
+      <h3>💪 Sterk</h3>
+      <code>R0bl0x!Fan</code>
+      <code>M1neCr@ft#</code>
+      <code>H0nd#2015</code>
+    </div>
+  </div>
+  <p style="margin-top:3vh;">Links wordt in seconden geraden. Rechts doet een hacker járen over. 🐌</p>
+</div>
+
+<!-- SLIDE 5 — Jouw geheim -->
+<div class="slide s5">
+  <div class="big-emoji">🤫</div>
+  <h2>Het beste wachtwoord zit verstopt<br>in iets dat jij leuk vindt</h2>
+  <p>Iets dat alleen jij weet. Iets dat je nooit vergeet.</p>
+</div>
+
+<!-- SLIDE 6 — Ankerkaart -->
+<div class="slide s6">
+  <h2>🎯 Kies er één — in je hoofd</h2>
+  <p style="margin-bottom:2vh;">Doe je ogen even dicht (10 sec) en kies er één. Niet zeggen, niet opschrijven. 🤐</p>
+  <div class="ankers">
+    <div class="anker"><span class="icon">🎮</span>Jouw game<br><small>Roblox, Minecraft…</small></div>
+    <div class="anker"><span class="icon">🐾</span>Een dier<br><small>favoriet of zoals jij</small></div>
+    <div class="anker"><span class="icon">🎵</span>Een liedje<br><small>of een zin die je zingt</small></div>
+    <div class="anker"><span class="icon">⭐</span>Een klein geheim<br><small>dat alleen jij weet</small></div>
+  </div>
+</div>
+
+<!-- SLIDE 7 — Maak er een wachtwoord van -->
+<div class="slide s7">
+  <h2>🔧 Maak er een wachtwoord van</h2>
+  <div class="voorbeelden">
+    <div class="vb">
+      <div class="stap">🎮 Game</div>
+      <div class="resultaat">R0bl0x!7</div>
+    </div>
+    <div class="vb">
+      <div class="stap">🐾 Dier</div>
+      <div class="resultaat">D0g#2024</div>
+    </div>
+    <div class="vb">
+      <div class="stap">🎵 Liedje (eerste letters)</div>
+      <div class="resultaat">Wszbp!1</div>
+    </div>
+  </div>
+  <p style="margin-top:3vh;"><strong>Lang genoeg, apart genoeg, maar de kern is van jou.</strong> ✨</p>
+</div>
+
+<!-- SLIDE 8 — Wachtwoordmanager -->
+<div class="slide s8">
+  <h2>🧰 Het ultieme wapen: de wachtwoordkluis</h2>
+  <div class="kluis">
+    <div class="kluis-icon">🗄️🔑</div>
+    <div class="kluis-box">
+      <p><strong>Ken je dit al?</strong> Als je in Chrome of op je telefoon inlogt, vraagt hij weleens: <em>"Wachtwoord opslaan?"</em> — Dat is een <strong>wachtwoordmanager</strong>!</p>
+      <p style="margin-top:1.5vh;">Het is als een <strong>afgesloten doos</strong> met al je sleutels erin. Jij onthoudt maar <strong>één</strong> wachtwoord. De rest doet hij voor jou. 🪄</p>
+    </div>
+  </div>
+  <p style="margin-top:3vh;">Kun je het niet onthouden? Geen probleem.<br>Laat de wachtwoordkluis je <strong>wachtwoordbutler</strong> zijn. 🎩</p>
+</div>
+
+<!-- Voortgang + navigatie -->
+<div class="progress" id="progress"></div>
+<div class="slide-num" id="slideNum">1 / 8</div>
+<div class="nav">
+  <button onclick="prev()">◀</button>
+  <button onclick="next()">▶</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+
+  function show(i) {
+    slides[current].classList.remove('active');
+    current = (i + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    document.getElementById('progress').style.width =
+      ((current + 1) / slides.length * 100) + '%';
+    document.getElementById('slideNum').textContent =
+      (current + 1) + ' / ' + slides.length;
+  }
+
+  function next() { show(current + 1); }
+  function prev() { show(current - 1); }
+
+  // Toetsenbord
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+
+  // Swipe (touch)
+  let startX = 0;
+  document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (dx < -50) next();
+    if (dx > 50) prev();
+  });
+
+  // Init
+  document.getElementById('progress').style.width = (1 / slides.length * 100) + '%';
+</script>
+
+</body>
+</html>

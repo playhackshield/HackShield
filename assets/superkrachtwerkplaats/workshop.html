@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HackShield: Superkrachtwerkplaats</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    /* Slide transition */
+    .slide-panel {
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+    .slide-panel.hidden-slide {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.99);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    .slide-panel.active-slide {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+      position: relative;
+    }
+
+    /* Smooth rotation animation */
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spin-slow 10s linear infinite;
+    }
+
+    /* Timer pulse warning */
+    @keyframes timer-alert {
+      0%, 100% { transform: scale(1); color: #dc2626; }
+      50% { transform: scale(1.04); color: #ef4444; }
+    }
+    .timer-warning {
+      animation: timer-alert 1s infinite ease-in-out;
+    }
+
+    /* Canvas confetti overlay */
+    #confettiCanvas {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between bg-slate-50 text-slate-900">
+
+  <!-- Celebration Confetti -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- TOP HEADER / NAV BAR -->
+  <header class="w-full bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between z-20 shrink-0 shadow-sm">
+    <div class="flex items-center space-x-3">
+      <img src="https://playhackshield.github.io/HackShield/assets/HS11.png" alt="HackShield Logo" class="h-9 w-auto object-contain">
+      <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 font-semibold">Superkrachtwerkplaats</span>
+    </div>
+
+    <!-- Center Progress Indicators -->
+    <div class="flex flex-col items-center flex-1 max-w-md mx-8">
+      <div class="flex justify-between w-full text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+        <span id="slidePhaseLabel">Welkom</span>
+        <span id="slideCounterText" class="text-cyan-700 font-bold">1 / 12</span>
+      </div>
+      <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+        <div id="progressBar" class="bg-cyan-600 h-full rounded-full transition-all duration-300 w-[8.33%]"></div>
+      </div>
+    </div>
+
+    <!-- Fullscreen toggle -->
+    <div class="flex items-center space-x-3">
+      <button id="toggleFullscreenBtn" class="px-3.5 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 rounded-lg flex items-center gap-1.5 transition active:scale-95">
+        <span id="fullscreenIcon">⛶</span>
+        <span>Volledig Scherm</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN SLIDES CONTAINER -->
+  <main class="flex-1 w-full relative overflow-y-auto overflow-x-hidden p-6 md:p-8 flex items-center justify-center">
+
+    <!-- ==================== SLIDE 1: WELKOM ==================== -->
+    <section id="slide-1" class="slide-panel active-slide w-full max-w-4xl flex flex-col items-center justify-center text-center space-y-8 py-8">
+      <!-- Clean Logo Slot -->
+<img src="https://playhackshield.github.io/HackShield/assets/HS11.png" alt="HackShield Logo" style="height: 110px; width: auto; object-fit: contain; margin-bottom: 1.5rem;">
+
+      <div class="space-y-3">
+        <h2 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+          Welkom bij de <span class="text-cyan-600">Superkrachtwerkplaats</span>
+        </h2>
+        <p class="text-xl md:text-2xl text-slate-600 font-medium">
+          Samen ontdekken we hoe we elkaar digitaal en offline kunnen beschermen.
+        </p>
+      </div>
+
+      <div>
+        <button onclick="goToSlide(2)" class="px-8 py-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xl rounded-2xl shadow-md transition transform hover:scale-[1.02] active:scale-95 flex items-center gap-3">
+          <span>Start Workshop</span>
+          <span class="text-2xl">➔</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 2: ZO WERKT EEN RONDE ==================== -->
+    <section id="slide-2" class="slide-panel hidden-slide w-full max-w-5xl flex flex-col items-center justify-center space-y-8">
+      <div class="text-center">
+        <span class="text-xs uppercase font-extrabold tracking-widest text-cyan-700 bg-cyan-50 px-3.5 py-1 rounded-full border border-cyan-200">Uitleg</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 mt-2">Zo werkt een ronde</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 w-full items-stretch">
+        <!-- Steps Left -->
+        <div class="md:col-span-7 bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col justify-between space-y-3">
+          <div class="flex items-center gap-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+            <span class="w-8 h-8 rounded-full bg-cyan-600 text-white font-extrabold flex items-center justify-center shrink-0">1</span>
+            <span class="text-lg font-bold text-slate-800">Lees de casus</span>
+          </div>
+          <div class="flex items-center gap-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+            <span class="w-8 h-8 rounded-full bg-red-600 text-white font-extrabold flex items-center justify-center shrink-0">2</span>
+            <span class="text-lg font-bold text-slate-800">Ontdek de truc</span>
+          </div>
+          <div class="flex items-center gap-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+            <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-extrabold flex items-center justify-center shrink-0">3</span>
+            <span class="text-lg font-bold text-slate-800">Bespreek de superkracht</span>
+          </div>
+          <div class="flex items-center gap-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+            <span class="w-8 h-8 rounded-full bg-amber-600 text-white font-extrabold flex items-center justify-center shrink-0">4</span>
+            <span class="text-lg font-bold text-slate-800">Maak samen een gouden tip</span>
+          </div>
+          <div class="flex items-center gap-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
+            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-extrabold flex items-center justify-center shrink-0">5</span>
+            <span class="text-lg font-bold text-slate-800">Plak de superkracht op het paspoort</span>
+          </div>
+        </div>
+
+        <!-- Example Right -->
+        <div class="md:col-span-5 bg-white border border-slate-200 p-6 md:p-8 rounded-2xl shadow-sm flex flex-col justify-center text-center space-y-4">
+          <div class="text-xs uppercase tracking-widest font-bold text-slate-400">Voorbeeld</div>
+          
+          <div class="bg-red-50 border border-red-200 rounded-xl p-3 flex items-center justify-center gap-2">
+            <span class="text-2xl">⚡</span>
+            <span class="font-bold text-red-900 text-base">Haast maken</span>
+          </div>
+
+          <div class="text-slate-400 font-bold text-lg">↓</div>
+
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-center gap-2">
+            <span class="text-2xl">⏸️</span>
+            <span class="font-bold text-emerald-900 text-base">Pauzeknop</span>
+          </div>
+
+          <div class="text-slate-400 font-bold text-lg">↓</div>
+
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <p class="font-bold text-amber-950 italic text-base">"Als iemand haast heeft, neem ik extra tijd."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 3: RONDE 1 ==================== -->
+    <section id="slide-3" class="slide-panel hidden-slide w-full max-w-6xl flex flex-col space-y-6" data-timer-type="round" data-duration="420">
+      
+      <!-- Top Bar: Title with icons & Timer -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200 p-4 px-6 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-cyan-100 text-cyan-800 font-extrabold rounded-lg text-xs uppercase tracking-wider">Ronde 1</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 flex items-center gap-2">
+            <span class="text-red-600 flex items-center gap-1.5"><span class="text-2xl">⚡</span> Haast maken</span>
+            <span class="text-slate-400 text-xl font-normal mx-1">vs</span>
+            <span class="text-emerald-600 flex items-center gap-1.5"><span class="text-2xl">⏸️</span> Pauzeknop</span>
+          </h2>
+        </div>
+
+        <!-- Timer -->
+        <div class="flex items-center space-x-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+          <div class="timerDisplay text-2xl md:text-3xl font-mono font-black text-slate-900">07:00</div>
+          <div class="flex space-x-1">
+            <button class="timerStartBtn px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition">Start</button>
+            <button class="timerPauseBtn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition">Pauze</button>
+            <button class="timerResetBtn px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-lg transition">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Casussen Underneath Each Other -->
+      <div class="flex flex-col space-y-4">
+        <!-- Casus Oudere -->
+        <div class="bg-white border-l-4 border-l-cyan-600 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-cyan-700 tracking-wide block mb-1">👴 Casus Oudere</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Uw bankrekening is niet veilig. We moeten direct handelen."
+          </p>
+        </div>
+
+        <!-- Casus Kind -->
+        <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-amber-700 tracking-wide block mb-1">🧒 Casus Kind</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Nog maar 10 minuten om deze exclusieve skin te krijgen!"
+          </p>
+        </div>
+      </div>
+
+      <!-- Bespreek samen aan tafel: Full width -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h4 class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-3">💬 Bespreek samen aan tafel:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-slate-900 block text-base mb-1">1. Welke truc zie je?</span>
+            <p class="text-sm text-slate-600">Waarom wil iemand dat je geen tijd neemt om na te denken?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-emerald-700 block text-base mb-1">2. Waarom helpt de Pauzeknop?</span>
+            <p class="text-sm text-slate-600">Wat verandert er als je even stopt en ademhaalt?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-cyan-700 block text-base mb-1">3. Wat wordt jullie gouden tip?</span>
+            <p class="text-sm text-slate-600">Welke afspraak maken jullie samen voor het paspoort?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 4: WISSELEN ==================== -->
+    <section id="slide-4" class="slide-panel hidden-slide w-full max-w-3xl flex flex-col items-center justify-center text-center space-y-6 py-12">
+      <div class="w-28 h-28 rounded-full bg-cyan-50 border border-cyan-200 flex items-center justify-center text-5xl shadow-sm">
+        <div class="animate-spin-slow">🔄</div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs uppercase tracking-widest font-extrabold text-cyan-700 bg-cyan-50 px-4 py-1.5 rounded-full border border-cyan-200">
+          Tijd om door te schuiven
+        </span>
+        <h2 class="text-4xl md:text-6xl font-black text-slate-900 pt-2">
+          Wisselen van tafel
+        </h2>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 5: RONDE 2 ==================== -->
+    <section id="slide-5" class="slide-panel hidden-slide w-full max-w-6xl flex flex-col space-y-6" data-timer-type="round" data-duration="420">
+      
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200 p-4 px-6 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-cyan-100 text-cyan-800 font-extrabold rounded-lg text-xs uppercase tracking-wider">Ronde 2</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 flex items-center gap-2">
+            <span class="text-red-600 flex items-center gap-1.5"><span class="text-2xl">🎭</span> Doen alsof</span>
+            <span class="text-slate-400 text-xl font-normal mx-1">vs</span>
+            <span class="text-emerald-600 flex items-center gap-1.5"><span class="text-2xl">🔍</span> Vergrootglas</span>
+          </h2>
+        </div>
+
+        <div class="flex items-center space-x-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+          <div class="timerDisplay text-2xl md:text-3xl font-mono font-black text-slate-900">07:00</div>
+          <div class="flex space-x-1">
+            <button class="timerStartBtn px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition">Start</button>
+            <button class="timerPauseBtn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition">Pauze</button>
+            <button class="timerResetBtn px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-lg transition">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Casussen -->
+      <div class="flex flex-col space-y-4">
+        <div class="bg-white border-l-4 border-l-cyan-600 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-cyan-700 tracking-wide block mb-1">👴 Casus Oudere</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Ik kom van de woningbouw. Mag ik even binnen?"
+          </p>
+        </div>
+
+        <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-amber-700 tracking-wide block mb-1">🧒 Casus Kind</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Wij hebben dezelfde hobby's. Zullen we vrienden worden?"
+          </p>
+        </div>
+      </div>
+
+      <!-- Bespreek samen aan tafel -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h4 class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-3">💬 Bespreek samen aan tafel:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-slate-900 block text-base mb-1">1. Welke truc zie je?</span>
+            <p class="text-sm text-slate-600">Hoe wekt iemand snel een betrouwbare indruk?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-emerald-700 block text-base mb-1">2. Waarom helpt het Vergrootglas?</span>
+            <p class="text-sm text-slate-600">Welke details of bewijzen ga je controleren?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-cyan-700 block text-base mb-1">3. Wat wordt jullie gouden tip?</span>
+            <p class="text-sm text-slate-600">Wat spreek je af als iemand vriendelijk of officieel lijkt?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 6: WISSELEN ==================== -->
+    <section id="slide-6" class="slide-panel hidden-slide w-full max-w-3xl flex flex-col items-center justify-center text-center space-y-6 py-12">
+      <div class="w-28 h-28 rounded-full bg-cyan-50 border border-cyan-200 flex items-center justify-center text-5xl shadow-sm">
+        <div class="animate-spin-slow">🔄</div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs uppercase tracking-widest font-extrabold text-cyan-700 bg-cyan-50 px-4 py-1.5 rounded-full border border-cyan-200">
+          Tijd om door te schuiven
+        </span>
+        <h2 class="text-4xl md:text-6xl font-black text-slate-900 pt-2">
+          Wisselen van tafel
+        </h2>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 7: RONDE 3 ==================== -->
+    <section id="slide-7" class="slide-panel hidden-slide w-full max-w-6xl flex flex-col space-y-6" data-timer-type="round" data-duration="420">
+      
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200 p-4 px-6 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-cyan-100 text-cyan-800 font-extrabold rounded-lg text-xs uppercase tracking-wider">Ronde 3</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 flex items-center gap-2">
+            <span class="text-red-600 flex items-center gap-1.5"><span class="text-2xl">🎣</span> Gevoel bespelen</span>
+            <span class="text-slate-400 text-xl font-normal mx-1">vs</span>
+            <span class="text-emerald-600 flex items-center gap-1.5"><span class="text-2xl">❤️</span> Rusthart</span>
+          </h2>
+        </div>
+
+        <div class="flex items-center space-x-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+          <div class="timerDisplay text-2xl md:text-3xl font-mono font-black text-slate-900">07:00</div>
+          <div class="flex space-x-1">
+            <button class="timerStartBtn px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition">Start</button>
+            <button class="timerPauseBtn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition">Pauze</button>
+            <button class="timerResetBtn px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-lg transition">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Casussen -->
+      <div class="flex flex-col space-y-4">
+        <div class="bg-white border-l-4 border-l-cyan-600 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-cyan-700 tracking-wide block mb-1">👴 Casus Oudere</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Mam, mijn telefoon is kapot. Kun je snel helpen?"
+          </p>
+        </div>
+
+        <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-amber-700 tracking-wide block mb-1">🧒 Casus Kind</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Als je echt mijn vriend bent, doe je dit."
+          </p>
+        </div>
+      </div>
+
+      <!-- Bespreek samen aan tafel -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h4 class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-3">💬 Bespreek samen aan tafel:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-slate-900 block text-base mb-1">1. Welk gevoel probeert iemand te gebruiken?</span>
+            <p class="text-sm text-slate-600">Gaat het om angst, medelijden of loyaliteit?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-emerald-700 block text-base mb-1">2. Waarom helpt het Rusthart?</span>
+            <p class="text-sm text-slate-600">Hoe zorg je dat emoties je beslissing niet sturen?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-cyan-700 block text-base mb-1">3. Wat wordt jullie gouden tip?</span>
+            <p class="text-sm text-slate-600">Hoe controleer je of het echt klopt vóórdat je reageert?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 8: WISSELEN ==================== -->
+    <section id="slide-8" class="slide-panel hidden-slide w-full max-w-3xl flex flex-col items-center justify-center text-center space-y-6 py-12">
+      <div class="w-28 h-28 rounded-full bg-cyan-50 border border-cyan-200 flex items-center justify-center text-5xl shadow-sm">
+        <div class="animate-spin-slow">🔄</div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs uppercase tracking-widest font-extrabold text-cyan-700 bg-cyan-50 px-4 py-1.5 rounded-full border border-cyan-200">
+          Tijd om door te schuiven
+        </span>
+        <h2 class="text-4xl md:text-6xl font-black text-slate-900 pt-2">
+          Wisselen van tafel
+        </h2>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 9: RONDE 4 ==================== -->
+    <section id="slide-9" class="slide-panel hidden-slide w-full max-w-6xl flex flex-col space-y-6" data-timer-type="round" data-duration="420">
+      
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200 p-4 px-6 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-cyan-100 text-cyan-800 font-extrabold rounded-lg text-xs uppercase tracking-wider">Ronde 4</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 flex items-center gap-2">
+            <span class="text-red-600 flex items-center gap-1.5"><span class="text-2xl">🤫</span> Geheimhouden</span>
+            <span class="text-slate-400 text-xl font-normal mx-1">vs</span>
+            <span class="text-emerald-600 flex items-center gap-1.5"><span class="text-2xl">☎️</span> Hulplijn</span>
+          </h2>
+        </div>
+
+        <div class="flex items-center space-x-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+          <div class="timerDisplay text-2xl md:text-3xl font-mono font-black text-slate-900">07:00</div>
+          <div class="flex space-x-1">
+            <button class="timerStartBtn px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition">Start</button>
+            <button class="timerPauseBtn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition">Pauze</button>
+            <button class="timerResetBtn px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-lg transition">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Casussen -->
+      <div class="flex flex-col space-y-4">
+        <div class="bg-white border-l-4 border-l-cyan-600 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-cyan-700 tracking-wide block mb-1">👴 Casus Oudere</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Vertel dit aan niemand."
+          </p>
+        </div>
+
+        <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-amber-700 tracking-wide block mb-1">🧒 Casus Kind</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Niet tegen je ouders zeggen."
+          </p>
+        </div>
+      </div>
+
+      <!-- Bespreek samen aan tafel -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h4 class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-3">💬 Bespreek samen aan tafel:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-slate-900 block text-base mb-1">1. Waarom wil iemand dit geheim houden?</span>
+            <p class="text-sm text-slate-600">Wat gebeurt er als je er wél met iemand over praat?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-emerald-700 block text-base mb-1">2. Waarom helpt de Hulplijn?</span>
+            <p class="text-sm text-slate-600">Wie is jouw betrouwbare persoon die je altijd mag bellen?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-cyan-700 block text-base mb-1">3. Wat wordt jullie gouden tip?</span>
+            <p class="text-sm text-slate-600">Wat spreek je af over geheimen die 'moeten' blijven?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 10: WISSELEN ==================== -->
+    <section id="slide-10" class="slide-panel hidden-slide w-full max-w-3xl flex flex-col items-center justify-center text-center space-y-6 py-12">
+      <div class="w-28 h-28 rounded-full bg-cyan-50 border border-cyan-200 flex items-center justify-center text-5xl shadow-sm">
+        <div class="animate-spin-slow">🔄</div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs uppercase tracking-widest font-extrabold text-cyan-700 bg-cyan-50 px-4 py-1.5 rounded-full border border-cyan-200">
+          Tijd om door te schuiven
+        </span>
+        <h2 class="text-4xl md:text-6xl font-black text-slate-900 pt-2">
+          Wisselen van tafel
+        </h2>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 11: RONDE 5 ==================== -->
+    <section id="slide-11" class="slide-panel hidden-slide w-full max-w-6xl flex flex-col space-y-6" data-timer-type="round" data-duration="420">
+      
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200 p-4 px-6 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-cyan-100 text-cyan-800 font-extrabold rounded-lg text-xs uppercase tracking-wider">Ronde 5</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 flex items-center gap-2">
+            <span class="text-red-600 flex items-center gap-1.5"><span class="text-2xl">👁️</span> Ik weet veel van jou</span>
+            <span class="text-slate-400 text-xl font-normal mx-1">vs</span>
+            <span class="text-emerald-600 flex items-center gap-1.5"><span class="text-2xl">🛡️</span> Controleschild</span>
+          </h2>
+        </div>
+
+        <div class="flex items-center space-x-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+          <div class="timerDisplay text-2xl md:text-3xl font-mono font-black text-slate-900">07:00</div>
+          <div class="flex space-x-1">
+            <button class="timerStartBtn px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition">Start</button>
+            <button class="timerPauseBtn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition">Pauze</button>
+            <button class="timerResetBtn px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-lg transition">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Casussen -->
+      <div class="flex flex-col space-y-4">
+        <div class="bg-white border-l-4 border-l-cyan-600 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-cyan-700 tracking-wide block mb-1">👴 Casus Oudere</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Ik zie dat u op dit adres woont en geboren bent op..."
+          </p>
+        </div>
+
+        <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 p-5 rounded-2xl shadow-sm">
+          <span class="text-xs uppercase font-extrabold text-amber-700 tracking-wide block mb-1">🧒 Casus Kind</span>
+          <p class="text-xl md:text-2xl font-bold text-slate-800 italic">
+            "Ik weet op welke school jij zit."
+          </p>
+        </div>
+      </div>
+
+      <!-- Bespreek samen aan tafel -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h4 class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-3">💬 Bespreek samen aan tafel:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-slate-900 block text-base mb-1">1. Waarom lijkt dit betrouwbaar?</span>
+            <p class="text-sm text-slate-600">Hoe kan iemand eigenlijk aan deze informatie komen?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-emerald-700 block text-base mb-1">2. Waarom helpt het Controleschild?</span>
+            <p class="text-sm text-slate-600">Waarom is feitenkennis geen garantie voor goede bedoelingen?</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl">
+            <span class="font-bold text-cyan-700 block text-base mb-1">3. Wat wordt jullie gouden tip?</span>
+            <p class="text-sm text-slate-600">Welke check voer je zelf altijd eerst uit?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 12: AFSLUITING ==================== -->
+    <section id="slide-12" class="slide-panel hidden-slide w-full max-w-5xl flex flex-col items-center justify-center text-center space-y-8 py-6">
+      
+      <!-- Superkracht Iconen -->
+      <div class="flex flex-wrap items-center justify-center gap-2">
+        <span class="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm">⏸️ Pauzeknop</span>
+        <span class="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm">🔍 Vergrootglas</span>
+        <span class="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm">❤️ Rusthart</span>
+        <span class="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm">☎️ Hulplijn</span>
+        <span class="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-sm">🛡️ Controleschild</span>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-4xl md:text-6xl font-black text-slate-900">
+          🎉 Alle superkrachten verzameld!
+        </h2>
+        <p class="text-lg md:text-xl text-slate-600 font-medium">
+          Tijd om kort met elkaar terug te kijken op de ontdekkingen.
+        </p>
+      </div>
+
+      <!-- Reflection Questions -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full text-left">
+        <!-- Vraag aan ouderen -->
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+          <div class="flex items-center gap-2.5 mb-3 text-cyan-800 font-extrabold text-lg">
+            <span>👴👵</span>
+            <span>Vraag aan een paar ouderen:</span>
+          </div>
+          <ul class="space-y-2.5 text-slate-700 font-medium text-base">
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-600 font-bold">•</span>
+              <span>Welke superkracht ga je gebruiken?</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-600 font-bold">•</span>
+              <span>Welke gouden tip onthoud je?</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Vraag aan kinderen -->
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+          <div class="flex items-center gap-2.5 mb-3 text-amber-800 font-extrabold text-lg">
+            <span>🧒👧</span>
+            <span>Vraag aan een paar kinderen:</span>
+          </div>
+          <ul class="space-y-2.5 text-slate-700 font-medium text-base">
+            <li class="flex items-start gap-2">
+              <span class="text-amber-600 font-bold">•</span>
+              <span>Welke truc vond je het slimst?</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-600 font-bold">•</span>
+              <span>Welke superkracht vind jij het belangrijkste?</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM CONTROL BAR -->
+  <footer class="w-full bg-white border-t border-slate-200 px-8 py-3.5 flex items-center justify-between z-20 shrink-0 shadow-sm">
+    <!-- Prev button -->
+    <button id="prevBtn" onclick="prevSlide()" class="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center gap-2 border border-slate-300 transition active:scale-95 disabled:opacity-40 disabled:pointer-events-none">
+      <span class="text-base">◀</span>
+      <span>Vorige</span>
+    </button>
+
+    <!-- Slide indicator dots -->
+    <div id="slideDotsContainer" class="hidden md:flex items-center space-x-2">
+      <!-- Dots populated dynamically -->
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center space-x-3">
+      <button onclick="resetPresentation()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs border border-slate-300 transition active:scale-95" title="Opnieuw starten">
+        <span>🔄 Herstart</span>
+      </button>
+
+      <button id="nextBtn" onclick="nextSlide()" class="px-6 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-bold flex items-center gap-2 shadow-sm transition active:scale-95">
+        <span>Volgende</span>
+        <span class="text-base">▶</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 12;
+    const timers = {};
+
+    const slideMetadata = [
+      { id: 1, label: "Welkom" },
+      { id: 2, label: "Zo werkt een ronde" },
+      { id: 3, label: "Ronde 1: Haast Maken" },
+      { id: 4, label: "Wisselen van tafel" },
+      { id: 5, label: "Ronde 2: Doen Alsof" },
+      { id: 6, label: "Wisselen van tafel" },
+      { id: 7, label: "Ronde 3: Gevoel Bespelen" },
+      { id: 8, label: "Wisselen van tafel" },
+      { id: 9, label: "Ronde 4: Geheimhouden" },
+      { id: 10, label: "Wisselen van tafel" },
+      { id: 11, label: "Ronde 5: Ik Weet Veel Van Jou" },
+      { id: 12, label: "Afsluiting" }
+    ];
+
+    // Audio cue
+    let audioCtx = null;
+    function playBeep(frequency = 587.33, duration = 0.25) {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.warn("Audio unavailable", e);
+      }
+    }
+
+    function playTimerAlarm() {
+      playBeep(523.25, 0.2);
+      setTimeout(() => playBeep(659.25, 0.25), 220);
+      setTimeout(() => playBeep(783.99, 0.4), 480);
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function initSlidesAndTimers() {
+      for (let i = 1; i <= totalSlides; i++) {
+        const slideEl = document.getElementById(`slide-${i}`);
+        if (!slideEl) continue;
+
+        const duration = parseInt(slideEl.dataset.duration || 0, 10);
+        if (duration > 0) {
+          timers[i] = {
+            intervalId: null,
+            remaining: duration,
+            total: duration,
+            isRunning: false,
+            slideEl: slideEl
+          };
+
+          const startBtn = slideEl.querySelector('.timerStartBtn');
+          const pauseBtn = slideEl.querySelector('.timerPauseBtn');
+          const resetBtn = slideEl.querySelector('.timerResetBtn');
+          const display = slideEl.querySelector('.timerDisplay');
+
+          if (startBtn) startBtn.addEventListener('click', () => startTimer(i));
+          if (pauseBtn) pauseBtn.addEventListener('click', () => pauseTimer(i));
+          if (resetBtn) resetBtn.addEventListener('click', () => resetTimer(i));
+          if (display) display.textContent = formatTime(duration);
+        }
+      }
+
+      // Render dots
+      const dotsContainer = document.getElementById('slideDotsContainer');
+      dotsContainer.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-200 ${i === 1 ? 'bg-cyan-600 w-5' : 'bg-slate-300 hover:bg-slate-400'}`;
+        dot.title = `Slide ${i}: ${slideMetadata[i-1].label}`;
+        dot.onclick = () => goToSlide(i);
+        dot.id = `dot-${i}`;
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function startTimer(slideIndex) {
+      const t = timers[slideIndex];
+      if (!t || t.isRunning) return;
+
+      t.isRunning = true;
+      const display = t.slideEl.querySelector('.timerDisplay');
+
+      t.intervalId = setInterval(() => {
+        if (t.remaining > 0) {
+          t.remaining--;
+          if (display) {
+            display.textContent = formatTime(t.remaining);
+            if (t.remaining <= 60 && t.remaining > 0) {
+              display.classList.add('timer-warning');
+            }
+          }
+          if (t.remaining === 0) {
+            pauseTimer(slideIndex);
+            playTimerAlarm();
+          }
+        }
+      }, 1000);
+    }
+
+    function pauseTimer(slideIndex) {
+      const t = timers[slideIndex];
+      if (!t) return;
+      clearInterval(t.intervalId);
+      t.isRunning = false;
+    }
+
+    function resetTimer(slideIndex) {
+      const t = timers[slideIndex];
+      if (!t) return;
+      pauseTimer(slideIndex);
+      t.remaining = t.total;
+      const display = t.slideEl.querySelector('.timerDisplay');
+      if (display) {
+        display.textContent = formatTime(t.total);
+        display.classList.remove('timer-warning');
+      }
+    }
+
+    function goToSlide(newIndex) {
+      if (newIndex < 1 || newIndex > totalSlides) return;
+
+      if (timers[currentSlide] && timers[currentSlide].isRunning) {
+        pauseTimer(currentSlide);
+      }
+
+      const oldSlide = document.getElementById(`slide-${currentSlide}`);
+      if (oldSlide) {
+        oldSlide.classList.remove('active-slide');
+        oldSlide.classList.add('hidden-slide');
+      }
+
+      currentSlide = newIndex;
+      const nextSlideEl = document.getElementById(`slide-${currentSlide}`);
+      if (nextSlideEl) {
+        nextSlideEl.classList.remove('hidden-slide');
+        nextSlideEl.classList.add('active-slide');
+      }
+
+      // Update header
+      document.getElementById('slideCounterText').textContent = `${currentSlide} / ${totalSlides}`;
+      document.getElementById('slidePhaseLabel').textContent = slideMetadata[currentSlide - 1].label;
+      const progressPercent = (currentSlide / totalSlides) * 100;
+      document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+      // Update buttons
+      document.getElementById('prevBtn').disabled = currentSlide === 1;
+      const nextBtn = document.getElementById('nextBtn');
+      if (currentSlide === totalSlides) {
+        nextBtn.innerHTML = `<span>Afronden</span> <span>🏆</span>`;
+      } else {
+        nextBtn.innerHTML = `<span>Volgende</span> <span class="text-base">▶</span>`;
+      }
+
+      // Update dots
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (dot) {
+          if (i === currentSlide) {
+            dot.className = 'w-5 h-2.5 rounded-full bg-cyan-600 transition-all duration-200';
+          } else {
+            dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-300 hover:bg-slate-400 transition-all duration-200';
+          }
+        }
+      }
+
+      if (currentSlide === 12) {
+        triggerConfettiCelebration();
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) goToSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) goToSlide(currentSlide - 1);
+    }
+
+    function resetPresentation() {
+      for (let i = 1; i <= totalSlides; i++) {
+        if (timers[i]) resetTimer(i);
+      }
+      goToSlide(1);
+    }
+
+    // Keyboard controls
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      }
+    });
+
+    // Fullscreen
+    const fullscreenBtn = document.getElementById('toggleFullscreenBtn');
+    const fullscreenIcon = document.getElementById('fullscreenIcon');
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          fullscreenIcon.textContent = '✕';
+        }).catch(err => console.log(err));
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().then(() => {
+            fullscreenIcon.textContent = '⛶';
+          });
+        }
+      }
+    }
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    // Subtle celebration confetti for slide 12
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    let confettiParticles = [];
+    let confettiAnimationId = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function createConfetti() {
+      const colors = ['#0891b2', '#059669', '#d97706', '#dc2626', '#7c3aed'];
+      confettiParticles = [];
+      for (let i = 0; i < 110; i++) {
+        confettiParticles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * -canvas.height * 0.5,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 2.5,
+          vy: Math.random() * 3 + 2,
+          rot: Math.random() * 360,
+          vrot: (Math.random() - 0.5) * 6
+        });
+      }
+    }
+
+    function renderConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
+
+      for (let p of confettiParticles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vrot;
+
+        if (p.y < canvas.height + 20) {
+          active = true;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+          ctx.restore();
+        }
+      }
+
+      if (active) {
+        confettiAnimationId = requestAnimationFrame(renderConfetti);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        cancelAnimationFrame(confettiAnimationId);
+      }
+    }
+
+    function triggerConfettiCelebration() {
+      if (confettiAnimationId) cancelAnimationFrame(confettiAnimationId);
+      createConfetti();
+      renderConfetti();
+      playTimerAlarm();
+    }
+
+    window.onload = function() {
+      initSlidesAndTimers();
+      goToSlide(1);
+    };
+  </script>
+</body>
+</html>

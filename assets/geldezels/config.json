@@ -26,25 +26,25 @@
         {
             "title": "Intro",
             "type": "video",
-            "src": "assets/geldezels/geldezel0.mp4",
+            "src": "assets/geldezels/Geldezels.mp4",
             "loop": false
         },
         {
             "title": "1",
             "type": "video",
-            "src": "assets/geldezels/geldezel1.mp4",
+            "src": "assets/geldezels/Geldezel1.mp4",
             "loop": false
         },
         {
             "title": "2",
             "type": "video",
-            "src": "assets/geldezels/geldezel2.mp4",
+            "src": "assets/geldezels/Geldezel2.mp4",
             "loop": false
         },
         {
             "title": "3",
             "type": "video",
-            "src": "assets/geldezels/geldezel3.mp4",
+            "src": "assets/geldezels/Geldezel3.mp4",
             "loop": false
         },
         {
@@ -56,25 +56,25 @@
         {
             "title": "5",
             "type": "video",
-            "src": "assets/geldezels/geldezel5.mp4",
+            "src": "assets/geldezels/Geldezel5.mp4",
             "loop": false
         },
         {
             "title": "6",
             "type": "video",
-            "src": "assets/geldezels/geldezel6.mp4",
+            "src": "assets/geldezels/Geldezel6.mp4",
             "loop": false
         },
         {
             "title": "7",
             "type": "video",
-            "src": "assets/geldezels/geldezel7.mp4",
+            "src": "assets/geldezels/Geldezel7.mp4",
             "loop": false
         },
         {
             "title": "8",
             "type": "video",
-            "src": "assets/geldezels/geldezel8.mp4",
+            "src": "assets/geldezels/Geldezel8.mp4",
             "loop": false
         }
    ]

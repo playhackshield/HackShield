@@ -1,0 +1,81 @@
+{
+    "ratio": 95,
+    "iframes": [
+        { 
+            "id": 0, 
+            "title": "Video", 
+            "url": "https://playhackshield.github.io/HackShield/presenter.html?id=phishing" 
+        },
+        { 
+            "id": 1, 
+            "title": "HackShield", 
+            "url": "https://hackshieldgame.com/nl/game" 
+        },
+        { 
+            "id": 2, 
+            "title": "Kahoot", 
+            "url": "https://playhackshield.github.io/HackShield/kahoot.html?data=https://playhackshield.github.io/HackShield/assets/phishing/kahoot.json" 
+        },
+        { 
+            "id": 3, 
+            "title": "Beoordeling", 
+            "url": "https://playhackshield.github.io/behavior/index.html" 
+        }
+    ],
+    "playlist" : [
+        {
+            "title": "Intro",
+            "type": "video",
+            "src": "assets/geldezels/geldezel0.mp4",
+            "loop": false
+        },
+        {
+            "title": "1",
+            "type": "video",
+            "src": "assets/geldezels/geldezel1.mp4",
+            "loop": false
+        },
+        {
+            "title": "2",
+            "type": "video",
+            "src": "assets/geldezels/geldezel2.mp4",
+            "loop": false
+        },
+        {
+            "title": "3",
+            "type": "video",
+            "src": "assets/geldezels/geldezel3.mp4",
+            "loop": false
+        },
+        {
+            "title": "4",
+            "type": "video",
+            "src": "assets/geldezels/geldezel4.mp4",
+            "loop": false
+        },
+        {
+            "title": "5",
+            "type": "video",
+            "src": "assets/geldezels/geldezel5.mp4",
+            "loop": false
+        },
+        {
+            "title": "6",
+            "type": "video",
+            "src": "assets/geldezels/geldezel6.mp4",
+            "loop": false
+        },
+        {
+            "title": "7",
+            "type": "video",
+            "src": "assets/geldezels/geldezel7.mp4",
+            "loop": false
+        },
+        {
+            "title": "8",
+            "type": "video",
+            "src": "assets/geldezels/geldezel8.mp4",
+            "loop": false
+        }
+   ]
+}

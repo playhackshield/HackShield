@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trap er niet in! Het Verhaal van de Geldezel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Fredoka & Inter voor een speelse maar leesbare stijl -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+        .slide-transition {
+            transition: opacity 0.35s ease-in-out, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .slide-hidden-left {
+            opacity: 0;
+            transform: translateX(-30px) scale(0.98);
+            pointer-events: none;
+            position: absolute;
+        }
+        .slide-hidden-right {
+            opacity: 0;
+            transform: translateX(30px) scale(0.98);
+            pointer-events: none;
+            position: absolute;
+        }
+        .slide-visible {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            position: relative;
+        }
+        /* Subtiele pulse animatie voor interactieve elementen */
+        @keyframes gentle-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .animate-gentle {
+            animation: gentle-pulse 3s infinite ease-in-out;
+        }
+        /* Custom scrollbar binnen sheet cards indien scherm klein is */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        donkey: {
+                            50: '#fdf8f6',
+                            100: '#f2e8e5',
+                            200: '#eaddd7',
+                            400: '#a1887f',
+                            500: '#8d6e63',
+                            600: '#6d4c41',
+                            800: '#4e342e',
+                        },
+                        robux: '#00A2FF',
+                        alertred: '#EF4444',
+                        safeemerald: '#10B981',
+                        goldwarn: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-900 text-slate-800 flex flex-col h-screen overflow-hidden antialiased">
+
+    <!-- Bovenbalk (Digibord Header) -->
+    <header class="bg-slate-800 text-white px-4 sm:px-6 py-2.5 flex items-center justify-between border-b border-slate-700 shadow-md shrink-0">
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl" role="img" aria-label="Ezel">🫏</span>
+            <div>
+                <h1 class="text-lg sm:text-xl font-bold tracking-wide text-amber-300">TRAP ER NIET IN!</h1>
+                <p class="text-xs text-slate-300 hidden sm:block">Interactieve les: Wat is een Geldezel (Money Mule)?</p>
+            </div>
+        </div>
+
+        <!-- Voortgang teller & Stappen indicator -->
+        <div class="flex items-center space-x-2 sm:space-x-4">
+            <div id="stepDots" class="hidden md:flex items-center space-x-1.5">
+                <!-- Wordt dynamisch opgebouwd -->
+            </div>
+            <div class="bg-slate-900/80 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border border-slate-700 text-amber-400" id="slideBadge">
+                Lesblad 1 van 8
+            </div>
+            <!-- Fullscreen Knop -->
+            <button onclick="toggleFullscreen()" title="Volledig scherm voor digibord" class="p-1.5 bg-slate-700 hover:bg-slate-600 active:scale-95 text-white rounded-lg transition-all flex items-center justify-center">
+                <svg id="fsIconExpand" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                </svg>
+                <svg id="fsIconCompress" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Slide Container (Hoofdweergave) -->
+    <main class="flex-1 relative overflow-y-auto overflow-x-hidden p-3 sm:p-6 flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+        <div id="presentationDeck" class="w-full max-w-5xl h-full max-h-[820px] relative flex flex-col">
+
+            <!-- ================= SHEET 1: TITEL & INTRO ================= -->
+            <section class="slide slide-visible w-full h-full bg-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between border-4 border-amber-400 overflow-y-auto" data-slide="1">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 my-auto">
+                    <div class="flex-1 text-left space-y-4">
+                        <span class="inline-block px-4 py-1 rounded-full bg-amber-100 text-amber-800 font-bold text-xs uppercase tracking-wider">
+                            Groep 7 & 8 • Digitale Veiligheid
+                        </span>
+                        <h2 class="text-3xl sm:text-5xl font-black text-slate-800 leading-tight">
+                            Wat is een <span class="text-amber-600 underline decoration-wavy decoration-amber-400">Geldezel</span>?
+                        </h2>
+                        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+                            In de natuur draagt een ezel zware spullen voor zijn baasje. In de digitale wereld is een <strong>geldezel</strong> (in het Engels: <em>money mule</em>) iemand die – vaak zonder het te beseffen – het <strong>vuile en gevaarlijke werk</strong> opknapt voor criminelen.
+                        </p>
+                        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-2xl">
+                            <p class="text-sm sm:text-base font-semibold text-amber-900">
+                                💡 De crimineel blijft zelf verstopt, terwijl JIJ alle risico's en straffen krijgt!
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Illustratie / Figuur -->
+                    <div class="w-full md:w-5/12 flex flex-col items-center justify-center">
+                        <div class="relative w-56 h-56 sm:w-64 sm:h-64 bg-amber-100 rounded-full flex items-center justify-center shadow-inner border-4 border-dashed border-amber-300 animate-gentle">
+                            <span class="text-8xl sm:text-9xl select-none">🫏</span>
+                            <div class="absolute -bottom-2 bg-rose-500 text-white font-black px-4 py-1.5 rounded-full shadow-lg text-xs tracking-wider uppercase">
+                                Zware Last!
+                            </div>
+                            <div class="absolute top-2 right-2 bg-yellow-400 text-slate-900 p-2 rounded-2xl shadow font-bold text-xs flex items-center space-x-1">
+                                <span>💰 Pas op!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400">
+                    Gebruik de pijltjestoetsen of de knoppen onderin om door de les te bladeren ➡️
+                </div>
+            </section>
+
+            <!-- ================= SHEET 2: DE VERLEIDING ================= -->
+            <section class="slide slide-hidden-right w-full h-full bg-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between border-4 border-blue-400 overflow-y-auto" data-slide="2">
+                <div>
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded-full text-xs uppercase">Fase 1</span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-800">Hoe lokken ze jou in de val?</h2>
+                    </div>
+                    <p class="text-slate-600 text-sm sm:text-base mb-6">
+                        Oplichters zijn heel slim. Ze weten precies wat kinderen leuk vinden, of gebruiken druk als je 'nee' zegt.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Verleiding Kaart 1 -->
+                        <div class="bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-blue-200 rounded-2xl p-4 sm:p-5 flex items-start space-x-4">
+                            <div class="text-3xl bg-blue-500 text-white p-3 rounded-2xl shadow">🎮</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-blue-900">1. Gratis Robux & V-Bucks</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                    "Wil jij een exclusieve skin of 5.000 gratis Robux? Je hoeft alleen maar even mee te helpen met een transactie!"
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Verleiding Kaart 2 -->
+                        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-2xl p-4 sm:p-5 flex items-start space-x-4">
+                            <div class="text-3xl bg-emerald-500 text-white p-3 rounded-2xl shadow">💸</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-emerald-900">2. "Snel & Makkelijk Rijk"</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                    Berichten op Snapchat, TikTok of Telegram: verdien €50 of €100 in 10 minuten door gewoon je rekening te lenen.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Verleiding Kaart 3 -->
+                        <div class="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-4 sm:p-5 flex items-start space-x-4">
+                            <div class="text-3xl bg-purple-500 text-white p-3 rounded-2xl shadow">🤝</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-purple-900">3. De "Vriendendienst"</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                    "Mijn pinpas doet het even niet en mijn moeder wil geld overmaken. Mag het alsjeblieft op jouw rekening?"
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Verleiding Kaart 4 -->
+                        <div class="bg-gradient-to-br from-rose-50 to-orange-50 border-2 border-rose-200 rounded-2xl p-4 sm:p-5 flex items-start space-x-4">
+                            <div class="text-3xl bg-rose-500 text-white p-3 rounded-2xl shadow">😠</div>
+                            <div>
+                                <h3 class="text-lg font-bold text-rose-900">4. Groepsdruk & Intimidatie</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                    Oudere jongens op het schoolplein of hangplekken die zeggen: "Doe niet zo laf! Iedereen doet dit, je móét ons helpen."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-100 rounded-2xl p-3 text-center text-xs sm:text-sm text-amber-900 font-bold border border-amber-300 mt-4">
+                    ⚡ Belangrijk: <em>Gratis geld of gratis game-munten bestaan niet zomaar op internet!</em>
+                </div>
+            </section>
+
+            <!-- ================= SHEET 3: HET ONZEKER LOKKERTJE ================= -->
+            <section class="slide slide-hidden-right w-full h-full bg-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between border-4 border-emerald-400 overflow-y-auto" data-slide="3">
+                <div>
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs uppercase">Fase 2</span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-800">Het 'Onschuldige' Lokkertje</h2>
+                    </div>
+                    <p class="text-slate-600 text-sm sm:text-base mb-6">
+                        De oplichter bouwt eerst vertrouwen op. De eerste vraag is klein, zodat het ongevaarlijk lijkt.
+                    </p>
+
+                    <!-- Gesprek / Chat simulatie -->
+                    <div class="bg-slate-100 rounded-3xl p-4 sm:p-6 border-2 border-slate-200 max-w-2xl mx-auto shadow-inner space-y-4">
+                        <!-- Bericht van oplichter -->
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                🕵️
+                            </div>
+                            <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-xs sm:max-w-md text-xs sm:text-sm text-slate-800">
+                                <p class="font-bold text-blue-600 mb-1">GamerX_Pro</p>
+                                <p>Hey! Kijk, ik stoot €20 op je rekening. Jij maakt €15 naar mij over en die €5 mag je houden. Of ik stuur je 400 Robux code! Geen grap!</p>
+                                <span class="text-[10px] text-slate-400 block text-right mt-1">15:32</span>
+                            </div>
+                        </div>
+
+                        <!-- Antwoord van kind -->
+                        <div class="flex items-start justify-end space-x-3">
+                            <div class="bg-emerald-500 text-white p-3.5 rounded-2xl rounded-tr-none shadow-sm max-w-xs sm:max-w-md text-xs sm:text-sm">
+                                <p>Echt waar? Wow, ik zie de €20 binnenkomen... Ik stuur de €15 terug!</p>
+                                <span class="text-[10px] text-emerald-100 block text-right mt-1">15:35</span>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                👦
+                            </div>
+                        </div>
+
+                        <!-- Oplichter stuurt beloning -->
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                🕵️
+                            </div>
+                            <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-xs sm:max-w-md text-xs sm:text-sm text-slate-800 border-l-4 border-emerald-500">
+                                <p class="font-bold text-emerald-600">🎉 Cadeaucode verstuurd!</p>
+                                <p>Zie je wel? Super eerlijk. Volgende keer kunnen we véél groter gaan verdienen...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-4 text-center mt-4">
+                    <p class="text-red-700 text-xs sm:text-sm font-semibold">
+                        ⚠️ <strong>Waarom doen ze dit?</strong> Dit is het <em>vis-haakje</em>. Nu denkt het kind: "Deze persoon is te vertrouwen en het werkt echt!"
+                    </p>
+                </div>
+            </section>
+
+            <!-- ================= SHEET 4: DE GROTE VRAAG ================= -->
+            <section class="slide slide-hidden-right w-full h-full bg-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between border-4 border-amber-500 overflow-y-auto" data-slide="4">
+                <div>
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full text-xs uppercase">Fase 3</span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-800">De Grote Vraag: "Geef je pasje!"</h2>
+                    </div>
+                    <p class="text-slate-600 text-sm sm:text-base mb-4">
+                        Als het vertrouwen er is, slaat de oplichter toe. De vraag is opeens heel anders en véél riskanter.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-2">
+                        <!-- Wat de dader zegt -->
+                        <div class="bg-amber-50 rounded-2xl p-5 border-2 border-amber-300 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center space-x-2 text-amber-700 font-bold mb-3">
+                                    <span class="text-2xl">🗣️</span>
+                                    <h3>Wat de oplichter belooft:</h3>
+                                </div>
+                                <ul class="space-y-3 text-xs sm:text-sm text-slate-700">
+                                    <li class="flex items-start">
+                                        <span class="text-amber-500 mr-2 font-black">•</span>
+                                        "Geef me voor 1 middagje je pinpas en pincode."
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-amber-500 mr-2 font-black">•</span>
+                                        "Er wordt even €4.000 op gestort. Jij krijgt 10.000 Robux én €200 contant!"
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-amber-500 mr-2 font-black">•</span>
+                                        "Geen zorgen, er kan niks misgaan. Mijn pas is gewoon kwijt."
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-4 p-3 bg-white rounded-xl text-center font-bold text-amber-600 text-xs shadow-sm">
+                                🎁 "Binnen één dag ben je rijk!"
+                            </div>
+                        </div>
+
+                        <!-- De Waarschuwing -->
+                        <div class="bg-rose-50 rounded-2xl p-5 border-2 border-rose-300 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center space-x-2 text-rose-700 font-bold mb-3">
+                                    <span class="text-2xl">🛑</span>
+                                    <h3>Wat er ÉCHT gebeurt:</h3>
+                                </div>
+                                <ul class="space-y-3 text-xs sm:text-sm text-slate-700">
+                                    <li class="flex items-start">
+                                        <span class="text-rose-500 mr-2 font-black">✖</span>
+                                        <strong>Nooit je pincode delen:</strong> Zelfs je beste vriend mag je pincode niet weten!
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-rose-500 mr-2 font-black">✖</span>
+                                        Zodra ze je pas hebben, ben jij de controle over je hele bankrekening kwijt.
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-rose-500 mr-2 font-black">✖</span>
+                                        Jij wordt nu officieel gebruikt als <strong>GELDEZEL</strong>.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-4 p-3 bg-rose-600 text-white rounded-xl text-center font-bold text-xs shadow-sm">
+                                🚨 HIER MOET JE DIRECT STOPPEN!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center text-xs font-semibold text-slate-500 mt-2">
+                    Vraag voor de klas: <em>Zou jij ooit je huissleutel aan een vreemde geven? Waarom je pinpas dan wel?</em>
+                </div>
+            </section>
+
+            <!-- ================= SHEET 5: HET CRIMINELE SPEL (DE GELDSTROOM) ================= -->
+            <section class="slide slide-hidden-right w-full h-full bg-white rounded-3xl p-5 sm:p-8 shadow-2xl flex flex-col justify-between border-4 border-indigo-500 overflow-y-auto" data-slide="5">
+                <div>
+                    <div class="flex items-center space-x-3 mb-2">
+                        <span class="bg-indigo-100 text-indigo-800 font-bold px-3 py-1 rounded-full text-xs uppercase">Het Mysterie Ontrafeld</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Hoe werkt de criminele geldstroom?</h2>
+                    </div>
+                    <p class="text-slate-600 text-xs sm:text-sm mb-4">
+                        Waarom gebruiken dieven een geldezel? Waarom laten ze het geld niet gewoon naar hun eigen rekening storten?
+                    </p>
+
+                    <!-- Diagram met 4 stappen -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <!-- Stap 1: Slachtoffer -->
+                        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 flex flex-col items-center text-center relative group hover:border-indigo-400 transition">
+                            <span class="text-4xl mb-2">👵</span>
+                            <span class="text-[11px] font-bold uppercase bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full mb-1">Stap 1</span>
+                            <h4 class="font-bold text-slate-800 text-sm">Het Slachtoffer</h4>
+                            <p class="text-[11px] text-slate-500 mt-1">
+                                Een oma wordt opgelicht via een valse WhatsApp of Marktplaats. Ze raakt €3.000 spaargeld kwijt.
+                            </p>
+                            <!-- Pijl naar volgende op desktop -->
+                            <div class="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-indigo-500 font-black text-xl">
+                                ➔
+                            </div>
+                        </div>
+
+                        <!-- Stap 2: Naar de Ezel -->
+                        <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-3 flex flex-col items-center text-center relative group">
+                            <span class="text-4xl mb-2">🫏</span>
+                            <span class="text-[11px] font-bold uppercase bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full mb-1">Stap 2</span>
+                            <h4 class="font-bold text-amber-900 text-sm">Jouw Rekening</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">
+                                De dief laat het gestolen geld overmaken naar <strong>jouw</strong> pasje. Jouw naam staat nu bij de diefstal!
+                            </p>
+                            <div class="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-indigo-500 font-black text-xl">
+                                ➔
+                            </div>
+                        </div>
+
+                        <!-- Stap 3: Pinnen bij automaat -->
+                        <div class="bg-indigo-50 border-2 border-indigo-300 rounded-2xl p-3 flex flex-col items-center text-center relative group">
+                            <span class="text-4xl mb-2">🏧</span>
+                            <span class="text-[11px] font-bold uppercase bg-indigo-200 text-indigo-800 px-2 py-0.5 rounded-full mb-1">Stap 3</span>
+                            <h4 class="font-bold text-indigo-900 text-sm">Contant Pinnen</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">
+                                Met jouw pas en pincode haalt de crimineel (of jijzelf onder dwang) briefjes uit de muur.
+                            </p>
+                            <div class="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-indigo-500 font-black text-xl">
+                                ➔
+                            </div>
+                        </div>
+
+                        <!-- Stap 4: Crimineel ontkomt -->
+                        <div class="bg-rose-50 border-2 border-rose-300 rounded-2xl p-3 flex flex-col items-center text-center relative group">
+                            <span class="text-4xl mb-2">🥷</span>
+                            <span class="text-[11px] font-bold uppercase bg-rose-200 text-rose-800 px-2 py-0.5 rounded-full mb-1">Stap 4</span>
+                            <h4 class="font-bold text-rose-900 text-sm">De Dief Verdwijnt</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">
+                                De crimineel rent weg met contant geld. Hij is onzichtbaar. Wie blijft er achter? <strong>Jij!</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Uitleg box -->
+                    <div class="mt-4 bg-indigo-900 text-white rounded-2xl p-3 sm:p-4 text-center">
+                        <p class="text-xs sm:text-sm font-semibold">
+                            🎯 <strong>De Slimme Truc van Boeven:</strong> Ze gebruiken jouw bankrekening als een soort <em>wasmachine</em>. Als de politie gaat zoeken, komen ze direct bij <u>jou</u> uit, niet bij de echte baas!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="text-center text-xs text-slate-400 mt-2">
+                    De dief blijft buiten beeld • De geldezel is de pineut
+                </div>
+            </section>
+
+            <!-- ================= SHEET 6: DE VAL KLAPT DICHT ================= -->
+            <section class="slide slide-hidden-right w-full h-full bg-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between border-4 border-rose-600 overflow-y-auto" data-slide="6">
+                <div>
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="bg-rose-100 text-rose-800 font-bold px-3 py-1 rounded-full text-xs uppercase">Gevaar</span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-800">De Val Klapt Dicht: Bedreiging!</h2>
+                    </div>
+                    <p class="text-slate-600 text-sm sm:text-base mb-4">
+                        Als je eenmaal 'ja' hebt gezegd of twijfelt, verandert de vriendelijke toon plotseling in pure intimidatie.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <!-- Schrikwekkend bericht voorbeeld -->
+                        <div class="bg-slate-900 rounded-2xl p-4 sm:p-5 text-white border-2 border-rose-500 shadow-xl space-y-3">
+                            <div class="flex items-center space-x-2 border-b border-slate-700 pb-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></span>
+                                <span class="text-xs font-mono text-rose-400">DREIGBERICHT VIA WHATSAPP</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-200 font-mono leading-relaxed">
+                                "Je gaat nu naar de pinautomaat en trekt die €3.000 eruit. Als je nu weigert of naar je ouders stapt, staan we vanmiddag voor je school. We weten wie je bent en waar je woont."
+                            </p>
+                            <div class="text-rose-400 font-bold text-xs">
+                                ⚠️ De daders laten je niet meer zomaar los.
+                            </div>
+                        </div>
+
+                        <!-- Gevoelens en realiteit -->
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200">
+                                <h4 class="font-bold text-amber-900 text-sm sm:text-base flex items-center gap-2">
+                                    <span>😰</span> Bang, klem en schuldig
+                                </h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                    Kinderen durven vaak niets aan hun ouders of meester/juf te vertellen uit angst om straf te krijgen of omdat ze bang zijn voor de criminelen.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-blue-50 border border-blue-200">
+                                <h4 class="font-bold text-blue-900 text-sm sm:text-base flex items-center gap-2">
+                                    <span>🛡️</span> Belangrijk om te weten:
+                                </h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                    Criminelen blaffen heel hard met woorden om je bang te maken. Zodra volwassenen of politie ingrijpen, zijn het meestal zélf laffe lafaards die vluchten.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-rose-100 p-3 rounded-xl text-center text-xs sm:text-sm font-bold text-rose-800 border border-rose-300 mt-4">
+                    Onthoud: Hoe langer je wacht met hulp vragen, hoe dieper je in de problemen raakt!
+                </div>
+            </section>
+
+            <!-- ================= SHEET 7: DE CONSEQUENTIES ================= -->
+            <section class="slide slide-hidden-right w-full h-full bg-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between border-4 border-slate-700 overflow-y-auto" data-slide="7">
+                <div>
+                    <div class="flex items-center space-x-3 mb-2">
+                        <span class="bg-slate-200 text-slate-800 font-bold px-3 py-1 rounded-full text-xs uppercase">De Kater</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Wat gebeurt er als je gepakt wordt?</h2>
+                    </div>
+                    <p class="text-slate-600 text-xs sm:text-sm mb-4">
+                        De bank ontdekt vreemde transacties razendsnel met slimme computers. De gevolgen voor een geldezel zijn enorm groot:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Consequentie 1 -->
+                        <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-4 text-center">
+                            <span class="text-4xl block mb-2">👮</span>
+                            <h3 class="font-bold text-red-900 text-sm sm:text-base">Politie & Strafblad</h3>
+                            <p class="text-xs text-slate-600 mt-2">
+                                Omdat jouw naam op de bankrekening staat, kom je in aanraking met de politie en Bureau Halt. Je kunt een strafblad krijgen!
+                            </p>
+                        </div>
+
+                        <!-- Consequentie 2 -->
+                        <div class="bg-orange-50 border-2 border-orange-200 rounded-2xl p-4 text-center">
+                            <span class="text-4xl block mb-2">💳❌</span>
+                            <h3 class="font-bold text-orange-900 text-sm sm:text-base">Zwarte Lijst van Banken</h3>
+                            <p class="text-xs text-slate-600 mt-2">
+                                Je komt tot wel <strong>8 jaar lang</strong> op een zwarte lijst (EVA-registratie). Je kunt geen pinpas meer krijgen, geen lening, en je latere salaris niet ontvangen!
+                            </p>
+                        </div>
+
+                        <!-- Consequentie 3 -->
+                        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 text-center">
+                            <span class="text-4xl block mb-2">💸📉</span>
+                            <h3 class="font-bold text-amber-900 text-sm sm:text-base">Al het Geld Terugbetalen</h3>
+                            <p class="text-xs text-slate-600 mt-2">
+                                Is er €3.000 van oma gestolen? Dan moeten <strong>jij en jouw ouders</strong> die €3.000 tot de laatste cent terugbetalen aan het slachtoffer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 text-white rounded-2xl p-3 sm:p-4 text-center mt-3">
+                    <p class="text-xs sm:text-sm">
+                        Was die 400 Robux of die paar tientjes het waard om jarenlang in de schulden en problemen te zitten? <strong class="text-amber-400">Zeker niet!</strong>
+                    </p>
+                </div>
+            </section>
+
+            <!-- ================= SHEET 8: WAT MOET JE DOEN? ================= -->
+            <section class="slide slide-hidden-right w-full h-full bg-white rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between border-4 border-emerald-500 overflow-y-auto" data-slide="8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-2">
+                        <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs uppercase">Jouw Superkracht</span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-800">Wat moet je DOEN? (Gouden Regels)</h2>
+                    </div>
+                    <p class="text-slate-600 text-xs sm:text-sm mb-4">
+                        Onthoud deze drie gouden regels om jezelf en je vrienden te beschermen:
+                    </p>
+
+                    <div class="space-y-3">
+                        <!-- Regel 1 -->
+                        <div class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-3.5 flex items-center space-x-4">
+                            <span class="text-3xl sm:text-4xl">🔐</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-emerald-900">1. Je bankpas is PRIVÉ!</h3>
+                                <p class="text-xs sm:text-sm text-slate-600">
+                                    Geef nooit, maar dan ook NOOIT je bankpas of pincode aan een ander. Ook niet voor 5 minuten.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Regel 2 -->
+                        <div class="bg-blue-50 border-2 border-blue-300 rounded-2xl p-3.5 flex items-center space-x-4">
+                            <span class="text-3xl sm:text-4xl">🎁🚫</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-blue-900">2. Te mooi om waar te zijn? Dan is het oplichting!</h3>
+                                <p class="text-xs sm:text-sm text-slate-600">
+                                    Niemand deelt zomaar gratis geld, telefoons of duizenden Robux uit op internet.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Regel 3 -->
+                        <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-3.5 flex items-center space-x-4">
+                            <span class="text-3xl sm:text-4xl">🗣️❤️</span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-bold text-amber-900">3. Ben je er toch ingetrapt? PRAAT ER DIRECT OVER!</h3>
+                                <p class="text-xs sm:text-sm text-slate-600">
+                                    Schaam je niet. Vertel het meteen aan je ouders, je meester of juf. Hoe sneller je praat, hoe beter zij de bank kunnen bellen om je pas te blokkeren!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Handige hulplijnen -->
+                <div class="bg-slate-100 rounded-2xl p-3 text-center flex flex-wrap items-center justify-around gap-2 text-xs font-semibold text-slate-700 border border-slate-300 mt-3">
+                    <span class="flex items-center gap-1">📞 De Kindertelefoon: <strong>0800-0432</strong></span>
+                    <span class="flex items-center gap-1">👮 Meld Misdaad Anoniem: <strong>0800-7000</strong></span>
+                    <span class="flex items-center gap-1">🌐 <strong>vraaghetdepolitie.nl</strong></span>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Navigatiebalk Onderzijde -->
+    <footer class="bg-slate-800 text-white px-4 sm:px-8 py-3 flex items-center justify-between border-t border-slate-700 shrink-0">
+        <!-- Vorige Knop -->
+        <button id="btnPrev" onclick="navigateSlide(-1)" class="flex items-center space-x-2 px-4 sm:px-6 py-2.5 rounded-2xl font-bold bg-slate-700 hover:bg-slate-600 active:scale-95 text-white disabled:opacity-30 disabled:pointer-events-none transition-all shadow">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span class="text-sm sm:text-base">Vorige</span>
+        </button>
+
+        <!-- Snel-klik stappenbalk voor touchscreen/digibord -->
+        <div class="flex items-center space-x-2 text-xs font-medium text-slate-300">
+            <span class="hidden sm:inline">Navigatie:</span>
+            <div id="quickThumbnails" class="flex items-center space-x-1.5">
+                <!-- Dynamische knopjes -->
+            </div>
+        </div>
+
+        <!-- Volgende Knop -->
+        <button id="btnNext" onclick="navigateSlide(1)" class="flex items-center space-x-2 px-4 sm:px-6 py-2.5 rounded-2xl font-bold bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-900 transition-all shadow-lg">
+            <span class="text-sm sm:text-base" id="nextButtonText">Volgende</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </footer>
+
+    <!-- JavaScript Logica voor Presentatie -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+        const slides = document.querySelectorAll('.slide');
+        const badge = document.getElementById('slideBadge');
+        const stepDotsContainer = document.getElementById('stepDots');
+        const quickThumbnailsContainer = document.getElementById('quickThumbnails');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const nextButtonText = document.getElementById('nextButtonText');
+
+        // Initialiseer navigatiestippen en thumbnails
+        function initNav() {
+            stepDotsContainer.innerHTML = '';
+            quickThumbnailsContainer.innerHTML = '';
+
+            for (let i = 1; i <= totalSlides; i++) {
+                // Header dotjes
+                const dot = document.createElement('button');
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === currentSlide ? 'bg-amber-400 scale-125' : 'bg-slate-600 hover:bg-slate-400'}`;
+                dot.onclick = () => goToSlide(i);
+                dot.title = `Ga naar sheet ${i}`;
+                stepDotsContainer.appendChild(dot);
+
+                // Footer mini-knopjes
+                const thumb = document.createElement('button');
+                thumb.className = `w-7 h-7 rounded-xl flex items-center justify-center font-bold text-xs transition-all ${i === currentSlide ? 'bg-amber-400 text-slate-900 shadow' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`;
+                thumb.innerText = i;
+                thumb.onclick = () => goToSlide(i);
+                quickThumbnailsContainer.appendChild(thumb);
+            }
+        }
+
+        // Toon de juiste sheet
+        function renderSlide(direction = 1) {
+            slides.forEach((slide) => {
+                const index = parseInt(slide.getAttribute('data-slide'));
+                slide.classList.remove('slide-visible', 'slide-hidden-left', 'slide-hidden-right');
+
+                if (index === currentSlide) {
+                    slide.classList.add('slide-visible');
+                } else if (index < currentSlide) {
+                    slide.classList.add('slide-hidden-left');
+                } else {
+                    slide.classList.add('slide-hidden-right');
+                }
+            });
+
+            // Update badge & buttons
+            badge.innerText = `Sheet ${currentSlide} van ${totalSlides}`;
+            btnPrev.disabled = (currentSlide === 1);
+            
+            if (currentSlide === totalSlides) {
+                nextButtonText.innerText = "Opnieuw";
+            } else {
+                nextButtonText.innerText = "Volgende";
+            }
+
+            initNav();
+        }
+
+        function navigateSlide(direction) {
+            if (currentSlide === totalSlides && direction === 1) {
+                currentSlide = 1; // Herstart
+            } else {
+                currentSlide = Math.min(Math.max(1, currentSlide + direction), totalSlides);
+            }
+            renderSlide(direction);
+        }
+
+        function goToSlide(slideNum) {
+            const dir = slideNum >= currentSlide ? 1 : -1;
+            currentSlide = slideNum;
+            renderSlide(dir);
+        }
+
+        // Toetsenbordbediening (Pijltje links/rechts, spatie, backspace)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                navigateSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+                e.preventDefault();
+                navigateSlide(-1);
+            }
+        });
+
+        // Touch swipe support voor tablet / Chromebooks
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const mainArea = document.querySelector('main');
+
+        mainArea.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        mainArea.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, { passive: true });
+
+        function handleGesture() {
+            const swipeDistance = touchEndX - touchStartX;
+            if (swipeDistance < -60) {
+                // Swipe naar links -> volgende
+                navigateSlide(1);
+            }
+            if (swipeDistance > 60) {
+                // Swipe naar rechts -> vorige
+                navigateSlide(-1);
+            }
+        }
+
+        // Digibord Fullscreen Toggle
+        function toggleFullscreen() {
+            const expandIcon = document.getElementById('fsIconExpand');
+            const compressIcon = document.getElementById('fsIconCompress');
+
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    expandIcon.classList.add('hidden');
+                    compressIcon.classList.remove('hidden');
+                }).catch(err => {
+                    console.log('Fullscreen niet toegestaan:', err);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().then(() => {
+                        expandIcon.classList.remove('hidden');
+                        compressIcon.classList.add('hidden');
+                    });
+                }
+            }
+        }
+
+        // Luister naar fullscreen change via ESC
+        document.addEventListener('fullscreenchange', () => {
+            const expandIcon = document.getElementById('fsIconExpand');
+            const compressIcon = document.getElementById('fsIconCompress');
+            if (!document.fullscreenElement) {
+                expandIcon.classList.remove('hidden');
+                compressIcon.classList.add('hidden');
+            }
+        });
+
+        // Start presentatie
+        window.onload = function() {
+            renderSlide();
+        };
+    </script>
+</body>
+</html>

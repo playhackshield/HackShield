@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>(v1.1.8) HackShield</title>
+    <title>(v1.1.9) HackShield</title>
     <style>
         * {
             margin: 0;
@@ -221,6 +221,7 @@
         const minScale = 0.3;
         const maxScale = 2.0;
         const scaleStep = 0.01;
+        let isFirstLoad = true; // ← nieuw: houdt bij of dit de eerste keer is
         
         // Drag state voor controls
         let isDragging = false;
@@ -277,7 +278,7 @@
         }
         
         // Laad en toon content
-        function loadContent(index) {
+        function loadContent(index, autoplay = true) {
             if (playlist.length === 0) return;
             
             currentIndex = index;
@@ -293,17 +294,16 @@
                 currentElement = document.createElement('video');
                 currentElement.src = item.src;
                 currentElement.loop = item.loop;
-                currentElement.autoplay = false;           // ← AANPASSING 1: geen autoplay
+                currentElement.autoplay = autoplay;        // ← alleen eerste keer false
                 currentElement.controls = false;
                 currentElement.style.width = '100%';
                 currentElement.style.height = '100%';
                 
-                // Update pause-knop naar play-icoon, want de video speelt nog niet
-                pauseBtn.textContent = '▶';
+                // Zet icoon op basis van of video speelt
+                pauseBtn.textContent = autoplay ? '⏸' : '▶';
                 
                 currentElement.onended = () => {
                     if (!item.loop) {
-                        // ← AANPASSING 2: stop bij laatste video i.p.v. wrappen
                         if (currentIndex < playlist.length - 1) {
                             next();
                         }
@@ -332,13 +332,13 @@
         // Naar volgende
         function next() {
             if (playlist.length === 0) return;
-            loadContent(getNextIndex(currentIndex));
+            loadContent(getNextIndex(currentIndex), true);
         }
         
         // Naar vorige
         function prev() {
             if (playlist.length === 0) return;
-            loadContent(getPrevIndex(currentIndex));
+            loadContent(getPrevIndex(currentIndex), true);
         }
         
         // Pauzeer/speel
@@ -428,7 +428,6 @@
         }
         
         function resetControlsPosition() {
-            // ← AANPASSING 3: standaardpositie nu linksboven
             controls.style.left = '20px';
             controls.style.top = '20px';
             controls.style.right = 'auto';
@@ -544,7 +543,9 @@
             
             loadControlsPosition();
             updateScale();
-            loadContent(0);
+            
+            // ← eerste keer laden: autoplay UIT
+            loadContent(0, false);
         }
         
         // Start

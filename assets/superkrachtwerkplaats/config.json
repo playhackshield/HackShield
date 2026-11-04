@@ -24,9 +24,39 @@
     ],
     "playlist" : [
         {
-            "title": "Intro",
+            "title": "01",
             "type": "video",
-            "src": "assets/superkrachtwerkplaats/intro.mp4",
+            "src": "assets/superkrachtwerkplaats/01.mp4",
+            "loop": false
+        },
+        {
+            "title": "02",
+            "type": "video",
+            "src": "assets/superkrachtwerkplaats/02.mp4",
+            "loop": false
+        },
+        {
+            "title": "03",
+            "type": "video",
+            "src": "assets/superkrachtwerkplaats/03.mp4",
+            "loop": false
+        },
+        {
+            "title": "04",
+            "type": "video",
+            "src": "assets/superkrachtwerkplaats/04.mp4",
+            "loop": false
+        },
+        {
+            "title": "05",
+            "type": "video",
+            "src": "assets/superkrachtwerkplaats/05.mp4",
+            "loop": false
+        },
+        {
+            "title": "06",
+            "type": "video",
+            "src": "assets/superkrachtwerkplaats/06.mp4",
             "loop": false
         }
    ]

@@ -13,6 +13,16 @@
         },
         { 
             "id": 3, 
+            "title": "Paspoort", 
+            "url": "https://playhackshield.github.io/HackShield/assets/paspoort.html" 
+        },
+        { 
+            "id": 4, 
+            "title": "Afdrukken", 
+            "url": "https://playhackshield.github.io/HackShield/assets/Cyber Agent Paspoort.pdf" 
+        },
+        { 
+            "id": 4, 
             "title": "Beoordeling", 
             "url": "https://playhackshield.github.io/behavior/" 
         }
